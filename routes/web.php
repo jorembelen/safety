@@ -1,0 +1,68 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+
+    Route::resource('incidents', 'IncidentController');
+
+    Route::put('/update-profile/{id}', 'UserController@userUpdate')->name('profile.update');
+
+    Route::get('/show-report/{id}', 'ReportController@showReport');
+
+    Route::resource('/recommendations', 'RootCauseController');
+    Route::get('/user-recommendations', 'RootCauseController@recUser');
+    
+    Route::put('incidents/uploadImage/{id}', 'IncidentController@uploadImage')->name('upload');
+
+    Route::get('/profile/{id}', 'AdminController@profile')->name('show.profile');
+
+    Route::resource('reports', 'ReportController');
+    Route::post('remarks', 'ReportController@remarks')->name('remarks.store');
+    Route::get('remarks-detail/{id}', 'ReportController@remarksDetail')->name('remarks.view');
+    Route::get('awaiting', 'IncidentController@awaiting');
+    
+    Route::get('investigation/{id}', 'ReportController@incident');
+    Route::get('report/{id}', 'ReportController@incidentReport');
+    Route::get('/export/investigation', 'ReportController@reportAll');
+    
+    Route::get('/export/notification', 'IncidentController@export');
+
+ });
+
+ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+
+    Route::resource('employees', 'EmployeeController');
+    Route::get('/import','EmployeeController@indexImport');
+    Route::post('/import/employees', 'EmployeeController@import')->name('import.employees');
+    Route::post('/search','EmployeeController@search');
+
+    Route::resource('locations', 'LocationController');
+    Route::resource('users', 'AdminController');
+    Route::get('/notification', 'IncidentController@adminIndex');
+    Route::get('/investigation', 'ReportController@adminIndex');
+    Route::get('/print-report/{id}', 'ReportController@printReport')->name('print.report');
+    Route::get('/review', 'ReportController@review');
+    Route::get('awaiting', 'IncidentController@awaitingAdmin');
+
+});
