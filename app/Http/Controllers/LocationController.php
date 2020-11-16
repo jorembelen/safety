@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LocationStoreRequest;
 use App\Http\Requests\LocationUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Imports\LocationsImport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Location;
 
 class LocationController extends Controller
@@ -20,6 +22,22 @@ class LocationController extends Controller
         $locations = Location::all();
 
         return view('location.index', compact('locations'));
+    }
+
+    public function importLocation()
+    {
+
+        return view('location.import');
+    }
+
+    public function import(Request $request) 
+    {
+        
+        $validator = Excel::import(new LocationsImport,request()->file('file'));
+        
+        Alert::success('Success', 'Locations Imported Successfully!');
+           
+        return redirect('/admin/locations')->with('success', 'Locations Has Been imported Successfully');
     }
 
     /**
@@ -45,7 +63,7 @@ class LocationController extends Controller
 
         Alert::toast('Location Added Successfully!', 'success');
             
-        return redirect('/locations');
+        return redirect('/admin/locations');
     }
 
     /**
@@ -85,7 +103,7 @@ class LocationController extends Controller
 
         Alert::toast('Location Updated Successfully!', 'success');
             
-        return redirect('/locations');
+        return redirect('/admin/locations');
     }
 
     /**
@@ -102,6 +120,6 @@ class LocationController extends Controller
 
         Alert::success('success', 'Location Deleted Successfully!');
             
-        return redirect('/locations');
+        return redirect('/admin/locations');
     }
 }

@@ -27,7 +27,6 @@ class LocationStoreRequest extends FormRequest
             'division' => 'required',
             'name' => 'required',
             'loc_name' => 'required',
-            'unit_code' => 'required',
         ];
     }
 }

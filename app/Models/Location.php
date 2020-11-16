@@ -9,7 +9,6 @@ class Location extends Model
     public $fillable = [
         'division',
         'name',
-        'loc_name',
-        'unit_code'
+        'loc_name'
     ];
 }

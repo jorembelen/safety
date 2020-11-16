@@ -19,8 +19,8 @@ class CreateReportsTable extends Migration
             $table->unsignedInteger('employee_id');
             $table->uuid('user_id');
             $table->unsignedInteger('location_id');
-            $table->string('safety');
-            $table->string('proof_training');
+            $table->string('safety')->nullable();
+            $table->string('proof_training')->nullable();
             $table->string('mgr_name');
             $table->string('sup_name')->nullable();
             $table->string('inc_loc');

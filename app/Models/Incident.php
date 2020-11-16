@@ -67,5 +67,7 @@ class Incident extends Model
             $model->id = IdGenerator::generate(['table' => 'incidents', 'length' => 10, 'prefix' =>'IAAINR-']);
         });
     }
+
+    
             
 }

@@ -48,6 +48,10 @@ Route::group(['middleware' => ['auth']], function() {
     
     Route::get('/export/notification', 'IncidentController@export');
 
+    // For Printing
+    Route::get('/print-report/{id}', 'ReportController@printReport')->name('print.report');
+    Route::get('/print-notification/{id}', 'IncidentController@printNotification')->name('print.notification');
+
  });
 
  Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -58,11 +62,16 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/search','EmployeeController@search');
 
     Route::resource('locations', 'LocationController');
+    Route::get('/import-locations','LocationController@importLocation');
+    Route::post('/import/locations', 'LocationController@import')->name('import.locations');
     Route::resource('users', 'AdminController');
     Route::get('/notification', 'IncidentController@adminIndex');
     Route::get('/investigation', 'ReportController@adminIndex');
-    Route::get('/print-report/{id}', 'ReportController@printReport')->name('print.report');
     Route::get('/review', 'ReportController@review');
     Route::get('awaiting', 'IncidentController@awaitingAdmin');
+
+    Route::get('send', 'HomeController@sendNotification');
+
+    Route::get('backup', 'AdminController@backup');
 
 });

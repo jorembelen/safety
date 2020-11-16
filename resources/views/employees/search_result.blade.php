@@ -60,6 +60,6 @@
                     @include('employees.edit_delete')
                 @endforeach
 
-                    @include('Employees.create')
+                    @include('employees.create')
 
 @endsection

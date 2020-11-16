@@ -20,9 +20,6 @@
                                                     <div class="form-group">
                                                     <input type="text" class="form-control mb-4" name="loc_name" placeholder="Location">
                                                     </div>
-                                                    <div class="form-group">
-                                                    <input type="text" class="form-control mb-4" name="unit_code" placeholder="Project Code">
-                                                    </div>
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="submit" class="btn btn-primary">Submit</button>
                                                             <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancel</button>

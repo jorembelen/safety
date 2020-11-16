@@ -17,7 +17,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::where('email', '!=', 'admin@admin.com')->get();
+        $users = User::where('email', '!=', 'jorembelen@gmail.com')->get();
 
         return view('admin.index', compact('users'));
     }
@@ -30,6 +30,12 @@ class AdminController extends Controller
         return view('admin.profile', compact('users'));
     }
 
+    public function backup()
+    {
+       \Artisan::call('backup:run', ['--only-db' => true]);
+
+        Alert::success('Success', 'Backup Has Been Created Successfully');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -149,9 +155,10 @@ class AdminController extends Controller
             return redirect()->back();
 
         } else {
-
-            unlink(public_path('images/uploads/profiles/') . $user->profile_pic);
-            unlink(public_path('images/uploads/profiles-thumb/') . $user->profile_pic);
+            $path1 = 'images/uploads/profiles/';
+            $path2 = 'images/uploads/profiles-thumb/';
+            \File::delete( $path1 .$user->profile_pic);
+            \File::delete( $path2 .$user->profile_pic);
 
             $user->delete();
 

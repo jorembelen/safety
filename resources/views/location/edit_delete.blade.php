@@ -23,9 +23,6 @@
                                                     <div class="form-group">
                                                     <input type="text" class="form-control mb-4" value="{{$location->loc_name}}" name="loc_name" placeholder="Location">
                                                     </div>
-                                                    <div class="form-group">
-                                                    <input type="text" class="form-control mb-4" value="{{$location->unit_code}}" name="unit_code" placeholder="Unit Code">
-                                                    </div>
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="submit" class="btn btn-primary">Save</button>
                                                             <button class="btn btn-danger" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancel</button>

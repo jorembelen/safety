@@ -54,8 +54,8 @@
                                                             </div>
                                                             <div class="modal-body">
                                                             <form class="form-horizontal" method="POST" action="{{ route('employees.destroy', $employee->id) }}">
-                                                        @csrf
-                                                            {{ method_field('DELETE') }}
+                                                            @csrf
+                                                            <input type="hidden" name="_method" value="PUT">
                                                                 <p class="">If you delete the data it will be gone forever. Are you sure you want to proceed?</p>
                                                             </div>
                                                             <div class="modal-footer">

@@ -1275,7 +1275,7 @@ code { color: #e7515a; }
         align-self: center;
     }
     #topbar .theme-brand li.theme-logo img {
-        width: 40px;
+        width: 100px;
         height: 40px;
     }
     #topbar .theme-brand li.theme-text a {

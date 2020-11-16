@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use App\Models\RootCause;
+use App\User;
+use App\Notifications\UserNotification;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -50,5 +53,23 @@ class HomeController extends Controller
         return view('admin.dashboard', compact('data'));
     }
 
-
+    public function sendNotification()
+    {
+        $user = User::first();
+  
+        $details = [
+            'greeting' => 'Greetings!',
+            'body' => 'New Notifiation Report was added to your site.',
+            'actionText' => 'Go to Site',
+            'actionURL' => url('http://192.168.156.161:8000/admin/notification#!'),
+            'thanks' => 'Please check your data!',
+            'detail_id' => 101
+        ];
+        
+        // dd($details);
+        \Notification::send($user, new UserNotification($details));
+        // $user->notify(new UserNotification($details));
+   
+        Alert::toast('Email notification sent!', 'success');
+    }
 }

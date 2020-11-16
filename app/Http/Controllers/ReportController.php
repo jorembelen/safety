@@ -7,6 +7,9 @@ use App\Http\Requests\ReportStoreRequest;
 use App\Http\Requests\ReportUpdateRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\Facades\Image;
+use App\Notifications\AdminNotification;
+use App\Notifications\UserNotification;
+use App\Notifications\ManagerNotification;
 use App\Models\Incident;
 use App\Models\Location;
 use App\Models\Report;
@@ -55,12 +58,7 @@ class ReportController extends Controller
         $reports = Report::all();
         $remarks = Remark::where('report_id')->get()->toArray();
 
-        foreach($remarks as $remark)
-        {
-            $data = $remark;
-        }
-        // dd($remarks);
-        return view('manager.index', compact('reports', 'data'));
+        return view('manager.index', compact('reports'));
     }
 
     public function remarksDetail($id)
@@ -73,6 +71,34 @@ class ReportController extends Controller
 
     public function remarks(Request $request)
     {
+        $greetings = "";
+        date_default_timezone_set('Asia/Riyadh');
+        
+        /* This sets the $time variable to the current hour in the 24 hour clock format */
+        $time = date("H");
+
+        /* Set the $timezone variable to become the current timezone */
+        $timezone = date("e");
+
+        /* If the time is less than 1200 hours, show good morning */
+        if ($time < "12") {
+            $greetings = "Good Morning!";
+        } else
+
+        /* If the time is grater than or equal to 1200 hours, but less than 1700 hours, so good afternoon */
+        if ($time >= "12" && $time < "17") {
+            $greetings = "Good Afternoon!";
+        } else
+
+        /* Should the time be between or equal to 1700 and 1900 hours, show good evening */
+        if ($time >= "17" && $time < "19") {
+            $greetings = "Good Evening!";
+        } else
+
+        /* Finally, show good night if the time is greater than or equal to 1900 hours */
+        if ($time >= "19") {
+            $greetings = "Good Night!";
+        }
 
         $remarks = Remark::create($request->all());
 
@@ -81,6 +107,23 @@ class ReportController extends Controller
 
         DB::update('update reports set remarks = ? where id = ?', [$status, $id]);
         
+        $url = 'http://192.168.156.161:8000/remarks-detail/' .$id;
+        $notification = ' Incident Report ' .$id. ' was remark as ' .$remarks->status. '.';
+        $sender = 'Created by: ' .auth()->user()->name;
+        $user = User::whererole('admin')->get();
+       
+        $details = [
+            'greeting' => $greetings,
+            'body' => $notification,
+            'manager' =>  $sender,
+            'actionText' => 'Go to Site',
+            'actionURL' => url($url),
+            'thanks' => 'Please go to site to view remarks details!',
+            'status_id' => $id,
+        ];
+        
+        // \Notification::send($user, new ManagerNotification($details));
+
         Alert::toast('Remarks Successfully Added!', 'success');
         
         // }
@@ -142,7 +185,34 @@ class ReportController extends Controller
      */
     public function store(ReportStoreRequest $request)
     {
-        // $this->validate();
+        $greetings = "";
+        date_default_timezone_set('Asia/Riyadh');
+        
+        /* This sets the $time variable to the current hour in the 24 hour clock format */
+        $time = date("H");
+
+        /* Set the $timezone variable to become the current timezone */
+        $timezone = date("e");
+
+        /* If the time is less than 1200 hours, show good morning */
+        if ($time < "12") {
+            $greetings = "Good Morning!";
+        } else
+
+        /* If the time is grater than or equal to 1200 hours, but less than 1700 hours, so good afternoon */
+        if ($time >= "12" && $time < "17") {
+            $greetings = "Good Afternoon!";
+        } else
+
+        /* Should the time be between or equal to 1700 and 1900 hours, show good evening */
+        if ($time >= "17" && $time < "19") {
+            $greetings = "Good Evening!";
+        } else
+
+        /* Finally, show good night if the time is greater than or equal to 1900 hours */
+        if ($time >= "19") {
+            $greetings = "Good Night!";
+        }
 
         $reports = $request->all();
 
@@ -153,12 +223,12 @@ class ReportController extends Controller
 
                     // for saving original image
                 $ImageUpload = Image::make($file);
-                $originalPath = 'storage/image/';
+                $originalPath = 'files/image/';
                 $name = $file->hashName();
                 $ImageUpload->save($originalPath .$name);
                 
                 // for saving thumnail image
-                $thumbnailPath = 'storage/thumbnail/';
+                $thumbnailPath = 'files/thumbnail/';
                 $ImageUpload->resize(300,200);
                 $ImageUpload = $ImageUpload->save($thumbnailPath .$name);
                 
@@ -172,12 +242,12 @@ class ReportController extends Controller
             foreach($imgs as $img){
                     // for saving original image
                 $Upload = Image::make($img);
-                $path = 'storage/image/';
+                $path = 'files/image/';
                 $title = $img->hashName();
                 $Upload->save($path .$title);
                 
                 // for saving thumnail image
-                $resizePath = 'storage/thumbnail/';
+                $resizePath = 'files/thumbnail/';
                 $Upload->resize(300,200);
                 $Upload = $Upload->save($resizePath .$title);
 
@@ -192,7 +262,7 @@ class ReportController extends Controller
             $doc = $request->file('docs');
             // get the name of the image
             $filename = $doc->hashName();
-            $doc->move('storage/documents',$filename);
+            $doc->move('files/documents',$filename);
             $reports['docs'] = $filename;
         }
 
@@ -206,6 +276,43 @@ class ReportController extends Controller
 
             $datas = Report::create($reports);
 
+            $url = 'http://192.168.156.161:8000/reports/' .$datas->id;
+            $notification = ' Notification Report ' .$request->incident_id. ' was closed.';
+            $notification2 = ' You successfully closed ' .$request->incident_id.'.';
+            $sender = 'Created by: ' .auth()->user()->name;
+            $project = $request->location_id;
+            $op = \DB::table('locations')->where('id', $project)->first();
+            $location = 'Project: ' .$op->name;
+            $inc_detail = 'Investigation ID: ' .$datas->id;
+            $user = User::where('id', '=', auth()->user()->id)->get();
+            $admin = User::whererole('admin')->get();
+           
+            $adminDetails = [
+                'greeting' => $greetings,
+                'body' => $notification,
+                'officer' =>  $sender,
+                'project' =>  $inc_detail,
+                'location' =>  $location,
+                'actionText' => 'Go to Site',
+                'actionURL' => url($url),
+                'thanks' => 'Please go to site to view incident details!',
+                'detail_id' => $datas->id,
+            ];
+            $userDetails = [
+                'greeting' => $greetings,
+                'body' => $notification2,
+                'project' =>  $inc_detail,
+                'location' =>  $location,
+                'actionText' => 'Go to Site',
+                'actionURL' => url($url),
+                'thanks' => 'Please go to site to view incident details!',
+                'info_id' => $datas->id,
+            ];
+            
+            \Notification::send($user, new UserNotification($userDetails));
+            \Notification::send($admin, new AdminNotification($adminDetails));
+
+            
             $count = count($request->root_name);
        
             for ($i=0; $i < $count; $i++) { 
@@ -220,17 +327,19 @@ class ReportController extends Controller
             $datas->rootcause()->save($output);
 
 
-        $id = $request->incident_id;
-        $status = '1';
+            $id = $request->incident_id;
+            $status = '1';
 
-        DB::update('update incidents set status = ? where id = ?', [$status, $id]);
+            DB::update('update incidents set status = ? where id = ?', [$status, $id]);
 
+                }
             }
-        }
 
-        Alert::toast('Data Added Successfully!', 'success');
+            
+            Alert::toast('Data Added Successfully!', 'success');
 
-        return redirect('/incidents');
+
+            return redirect('/incidents');
     }
 
    
@@ -304,8 +413,8 @@ class ReportController extends Controller
             foreach($files as $file){
                 
                 foreach($photos as $photo){
-                    $path1 = 'storage/image/';
-                    $path2 = 'storage/thumbnail/';
+                    $path1 = 'files/image/';
+                    $path2 = 'files/thumbnail/';
                     // Delete old image from file
                     if($reportUpdate->proof != '') {
                         \File::delete($path1 .$photo);
@@ -315,12 +424,12 @@ class ReportController extends Controller
                 
                 // for saving original image
                 $ImageUpload = Image::make($file);
-                $originalPath = 'storage/image/';
+                $originalPath = 'files/image/';
                 $name = $file->hashName();
                 $ImageUpload->save($originalPath .$name);
                 
                 // for saving thumnail image
-                $thumbnailPath = 'storage/thumbnail/';
+                $thumbnailPath = 'files/thumbnail/';
                 $ImageUpload->resize(300,200);
                 $ImageUpload = $ImageUpload->save($thumbnailPath .$name);
 
@@ -334,8 +443,8 @@ class ReportController extends Controller
             foreach($imgs as $img){
                 
                 foreach($incImages as $imgFile){
-                    $path3 = 'storage/image/';
-                    $path4 = 'storage/thumbnail/';
+                    $path3 = 'files/image/';
+                    $path4 = 'files/thumbnail/';
                     // Delete old image from file
                     if($reportUpdate->inc_img != '') {
                         \File::delete($path3 . $imgFile);
@@ -344,12 +453,12 @@ class ReportController extends Controller
                 }
                 // for saving original image
                 $Upload = Image::make($img);
-                $path = 'storage/image/';
+                $path = 'files/image/';
                 $title = $img->hashName();
                 $Upload->save($path .$title);
                 
                 // for saving thumnail image
-                $resizePath = 'storage/thumbnail/';
+                $resizePath = 'files/thumbnail/';
                 $Upload->resize(300,200);
                 $Upload = $Upload->save($resizePath .$title);
 
@@ -364,12 +473,12 @@ class ReportController extends Controller
 
             // Delete old image from file
             if($reportUpdate->docs != '') {
-                unlink(public_path('/storage/documents/') . $reportUpdate->docs);
+                unlink(public_path('/files/documents/') . $reportUpdate->docs);
             }
 
             // get the name of the image
             $filename = $doc->hashName();
-            $doc->move('storage/documents',$filename);
+            $doc->move('files/documents',$filename);
             $reports['docs'] = $filename;
         }
 
@@ -392,10 +501,10 @@ class ReportController extends Controller
 
         $reports = Report::findOrFail($id);
 
-        
         // Delete old image from file
         if($reports->docs) {
-          unlink(public_path('/storage/documents/') . $reports->docs);
+            $path5 = 'files/documents/';
+            \File::delete( $path5 .$reports->docs);
         }
 
         $photos1 = explode('|', $reports->proof);
@@ -403,16 +512,16 @@ class ReportController extends Controller
 
         if($reports->proof) {
         foreach($photos1 as $img1){
-            $path1 = 'storage/image/';
-            $path2 = 'storage/thumbnail/';
+            $path1 = 'files/image/';
+            $path2 = 'files/thumbnail/';
             \File::delete($path1 . $img1);
             \File::delete($path2 . $img1);
           }
         }
         if($reports->inc_img) {
         foreach($photos2 as $img2){
-            $path3 = 'storage/image/';
-            $path4 = 'storage/thumbnail/';
+            $path3 = 'files/image/';
+            $path4 = 'files/thumbnail/';
             \File::delete( $path3 . $img2);
             \File::delete( $path4 . $img2);
           }
@@ -425,10 +534,13 @@ class ReportController extends Controller
 
         DB::update('update incidents set status = ? where id = ?', [$status, $id]);
 
+        $reports->rootcause()->delete();
+        $reports->remark()->delete();
         $reports->delete();
+
 
         Alert::success('Success', 'Report Has Been Deleted Successfully');
 
-        return redirect('/reports');
+        return back();
     }
 }

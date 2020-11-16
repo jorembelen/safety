@@ -29,7 +29,8 @@
     <link rel="stylesheet" type="text/css" href="/admin/assets/css/elements/alert.css">
     <link href="/admin/assets/css/elements/search.css" rel="stylesheet" type="text/css" />
     <link href="/admin/assets/css/users/user-profile.css" rel="stylesheet" type="text/css" />
-
+    <link href="/admin/assets/css/pages/contact_us.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/admin/assets/css/forms/theme-checkbox-radio.css">
     <!-- BEGIN PAGE LEVEL STYLES -->
     <link href="/admin/assets/css/apps/scrumboard.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL STYLES -->

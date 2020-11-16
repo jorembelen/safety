@@ -29,7 +29,7 @@
                                     <th>Person Involved</th>
                                     <th>Safety Officer</th>
                                     <th>Designation</th>
-                                    <th>Project Location</th>
+                                    <th>Project Name</th>
                                     <th>Injured Body Parts</th>
                                     <th>Type of Injury</th>
                                     <th>Immediate Cause</th>
@@ -57,7 +57,7 @@
                                     <td>{{ $incident->involved }}</td>
                                     <td>{{ $incident->officer->name }}</td>
                                     <td>{{ $incident->officer->designation }}</td>
-                                    <td>{{ $incident->locations->loc_name }}</td>
+                                    <td>{{ $incident->locations->name }}</td>
                                     <td>{{ $incident->injury_location }}</td>
                                     <td>{{ $incident->injury_sustain }}</td>
                                     <td>{{ $incident->cause }}</td>

@@ -18,7 +18,6 @@ class CreateLocationsTable extends Migration
             $table->string('division');
             $table->string('name');
             $table->string('loc_name');
-            $table->string('unit_code');
             $table->timestamps();
         });
     }

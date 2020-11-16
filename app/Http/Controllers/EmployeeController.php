@@ -120,7 +120,7 @@ class EmployeeController extends Controller
 
         Alert::toast('Employee Updated Successfully!', 'success');
 
-        return redirect('/employees');
+        return redirect('/admin/employees');
     }
 
     /**
@@ -138,6 +138,6 @@ class EmployeeController extends Controller
 
         Alert::success('success', 'Data Deleted Successfully!');
 
-        return back();
+        return redirect('/admin/employees');
     }
 }

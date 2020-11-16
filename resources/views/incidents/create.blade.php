@@ -45,10 +45,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="location">Site Location<span class="text-danger"> *</span></label>
-                                                <select name="location" class="form-control selectpicker" required>
+                                                <select name="location" class="form-control basic" data-live-search="true" required>
                                                 <option value="">Select</option>
                                                             @foreach( $locations as $location)
-                                                            <option value="{{$location->id}}" @if (old('location') == $location->id ) selected="selected" @endif>{{$location->loc_name}}</option>
+                                                            <option value="{{$location->id}}" @if (old('location') == $location->id ) selected="selected" @endif>{{$location->name}} - {{$location->loc_name}}</option>
                                                             @endforeach
                                                         </select>
                                                         @if($errors->has('location'))

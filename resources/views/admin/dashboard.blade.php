@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'HSE Web App')
 @section('content') 
  
 <div class="layout-px-spacing">
 
 <div class="page-header">
     <div class="page-title">
-        <h3>Dashboard</h3>
+        <!-- <h3>Dashboard</h3> -->
     </div>
     
 </div>
@@ -18,7 +18,7 @@
     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget-four">
             <div class="widget-heading">
-                <!-- <h5 class="">Summary</h5> -->
+                <h3 class="">Incident Type</h3>
             </div>
             <div class="widget-content">
                 <div class="vistorsBrowser">
@@ -80,45 +80,7 @@
                         </div>
 
                     </div>
-                    <div class="browser-list">
-                        <div class="w-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>   
-                        </div>
-                        <div class="w-browser-details">
-                            
-                            <div class="w-browser-info">
-                            <h6>First Aid</h6>
-                                <p class="browser-count">{{$data[3]}}</p>
-                            </div>
-
-                            <div class="w-browser-stats">
-                                <div class="progress">
-                                    <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: {{$data[3]}}%" aria-valuenow="{{$data[3]}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <!-- <div class="browser-list">
-                        <div class="w-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                    </div>
-                        <div class="w-browser-details">
-                            
-                            <div class="w-browser-info">
-                            <h6>First Aid - GOSI</h6>
-                                <p class="browser-count">{{$data[8]}}</p>
-                            </div>
-
-                            <div class="w-browser-stats">
-                                <div class="progress">
-                                    <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: {{$data[8]}}%" aria-valuenow="{{$data[8]}}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div> -->
+              
                     
                     <div class="browser-list">
                         <div class="w-icon">
@@ -151,7 +113,26 @@
             <div class="widget-content">
                 <div class="vistorsBrowser">
 
-                   
+                <div class="browser-list">
+                        <div class="w-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>   
+                        </div>
+                        <div class="w-browser-details">
+                            
+                            <div class="w-browser-info">
+                            <h6>First Aid</h6>
+                                <p class="browser-count">{{$data[3]}}</p>
+                            </div>
+
+                            <div class="w-browser-stats">
+                                <div class="progress">
+                                    <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: {{$data[3]}}%" aria-valuenow="{{$data[3]}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
 
                     <div class="browser-list">
                         <div class="w-icon">
@@ -257,7 +238,7 @@
                         <div class="">                                            
                             <p class="task-left">{{$data[8]}}</p>
                             <p class="task-completed"><span>Awaiting</span></p>
-                            @if($data[10] != '0')
+                            @if($data[8] != '0')
                             <a href="/admin/awaiting"><p class="task-hight-priority"><span>View Details</span></p></a>
                             @else
                             <p class="task-hight-priority"><span>No Pending!</span></p>

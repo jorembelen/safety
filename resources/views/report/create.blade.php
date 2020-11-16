@@ -45,8 +45,9 @@
                                                 </div>
                                         <div class="col-md-6">
                                                 <div class="form-group">
-                                                <label for="sup_name">Supervisors Name<span class="text-danger"></span></label>
+                                                <label for="sup_name">Supervisors Name<span class="text-danger"> *</span></label>
                                                 <select name="sup_name" class="form-control basic" data-live-search="true" required>
+                                                            <option value="">Select</option>
                                                             <option value="None">None</option>
                                                             @foreach( $officers as $officer)
                                                             <option value="{{$officer->id}}" @if (old('sup_name') == $officer->id ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}})</option>
@@ -73,12 +74,13 @@
                                                             <option value="">Select</option>
                                                             <option value="Occupational" @if (old('nature') == 'Occupational') selected="selected" @endif>Occupational</option>
                                                             <option value="Road Traffic" @if (old('nature') == 'Road Traffic') selected="selected" @endif>Road Traffic</option>
+                                                            <option value="None" @if (old('nature') == 'None') selected="selected" @endif>None</option>
                                                         </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-9">
                                             <div class="form-group">
-                                                <label for="other">Specify</label>
+                                            <label for="other">Specify<span class="text-danger"> *</span></label>
                                                 <input value="{{ old('other') }}" name="other" class="form-control" type="text" placeholder="Please specify . . ." required>
                                             </div>
                                             </div>
@@ -333,7 +335,7 @@
                                             </div>
                                             <div class="col-md-12">
                                             <div class="form-group">
-                                                    <label for="emp_doing">What was the injured person/employee doing at the time of the incident?  <span class="text-danger"> </span></label>
+                                                    <label for="emp_doing">What was the injured person/employee doing at the time of the incident?  <span class="text-danger"> *</span></label>
                                                         <input type="text" class="form-control" value="{{ old('emp_doing') }}" name="emp_doing" placeholder="Enter data here . . ." required>
                                                         @if($errors->has('emp_doing'))
                                                             <span class="help-block text-danger">{{ $errors->first('emp_doing') }}</span>
@@ -342,7 +344,7 @@
                                             </div>
                                             <div class="col-md-12">
                                             <div class="form-group">
-                                                    <label for="emp_machine">What was the machine/equipment doing at the time of the incident?  <span class="text-danger"> </span></label>
+                                                    <label for="emp_machine">What was the machine/equipment doing at the time of the incident?  <span class="text-danger"> *</span></label>
                                                         <input type="text" class="form-control" value="{{ old('emp_machine') }}" name="emp_machine" placeholder="Enter data here . . ." required>
                                                         @if($errors->has('emp_machine'))
                                                             <span class="help-block text-danger">{{ $errors->first('emp_machine') }}</span>
@@ -351,7 +353,7 @@
                                             </div>
                                             <div class="col-md-12">
                                             <div class="form-group">
-                                                    <label for="emp_material">What was the material(s) / substance(s) doing at the time of the incident  <span class="text-danger"> </span></label>
+                                                    <label for="emp_material">What was the material(s) / substance(s) doing at the time of the incident  <span class="text-danger"> *</span></label>
                                                         <input type="text" class="form-control" value="{{ old('emp_material') }}" name="emp_material" placeholder="Enter data here . . ." required>
                                                         @if($errors->has('emp_material'))
                                                             <span class="help-block text-danger">{{ $errors->first('emp_material') }}</span>
@@ -377,7 +379,7 @@
                                                             <div class="card-header" id="headingOne1">
                                                             <section class="mb-0 mt-0">
                                                                 <div role="menu" class="collapsed" data-toggle="collapse" data-target="#defaultAccordionOne" aria-expanded="false" aria-controls="defaultAccordionOne">
-                                                                Root Cause(s) and Recommendation of Incident/injury:  <div class="icons"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                                                                Root Cause(s) and Recommendation of Incident/injury:<span class="text-danger"> *</span>  <div class="icons"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
                                                                 </div>
                                                             </section>
                                                             </div>
@@ -409,7 +411,7 @@
                                        
                                         <div class="col-md-3">
                                                 <div class="form-group">
-                                                <label for="witness">Were there any witnesses?<span class="text-danger"> </span></label>
+                                                <label for="witness">Were there any witnesses?<span class="text-danger"> *</span></label>
                                                 <select name="witness" class="form-control" id="witness_frm">
                                                                 <option value="">Select</option>
                                                                 <option value="Yes" @if (old('witness') == 'Yes') selected="selected" @endif>Yes</option>
@@ -464,7 +466,7 @@
                                         <div class="col-md-5">
                                                 <div class="form-group">
                                                 <label for="safety">Safety Awareness Training Date<span class="text-danger"> </span></label>
-                                                        <input type="text" id="basicFlatpickr" class="form-control" value="{{ old('safety') }}" name="safety" placeholder="Safety Awareness Training Date" required>
+                                                        <input type="text" id="basicFlatpickr" class="form-control" value="{{ old('safety') }}" name="safety" placeholder="Safety Awareness Training Date">
                                                         @if($errors->has('safety'))
                                                             <span class="help-block text-danger">{{ $errors->first('safety') }}</span>
                                                         @endif
@@ -472,8 +474,8 @@
                                                 </div>
                                         <div class="col-md-7">
                                                 <div class="form-group">
-                                                <label for="proof_training">Proof of Training<span class="text-danger"> </span></label>
-                                                        <input type="text" class="form-control" value="{{ old('proof_training') }}" name="proof_training" placeholder="Proof of Training" required>
+                                                <label for="proof_training">Training Topic<span class="text-danger"> </span></label>
+                                                        <input type="text" class="form-control" value="{{ old('proof_training') }}" name="proof_training" placeholder="Proof of Training">
                                                         @if($errors->has('proof_training'))
                                                             <span class="help-block text-danger">{{ $errors->first('proof_training') }}</span>
                                                         @endif
@@ -542,9 +544,9 @@
     function dynamic_field(number)
     {
     html = '<tr>';
-            html += '<td><input type="text" name="root_name[]"  class="form-control" /></td>';
-            html += '<td><select type="text" name="root_description[]" class="form-control" required><option value="">Select</option><option value="People" @if (old('root_description') == 'People') selected="selected" @endif>People</option><option value="Process" @if (old('root_description') == 'Process') selected="selected" @endif>Process</option><option value="Equipment" @if (old('root_description') == 'Equipment') selected="selected" @endif>Equipment</option><option value="Workplace" @if (old('root_description') == 'Workplace') selected="selected" @endif>Workplace</option></select></td>';
-            html += '<td><input type="text" name="rec_name[]"  class="form-control" /></td>';
+            html += '<td><input type="text" name="root_name[]" class="form-control" /></td>';
+            html += '<td><select type="text" name="root_description[]" class="form-control" required><option value="">Select</option><option value="People" @if (old('root_description') == 'People') selected="selected" @endif>People</option><option value="Process" @if (old('root_description') == 'Process & Procedure') selected="selected" @endif>Process & Procedure</option><option value="Equipment" @if (old('root_description') == 'Equipment') selected="selected" @endif>Equipment</option><option value="Workplace" @if (old('root_description') == 'Workplace') selected="selected" @endif>Workplace</option></select></td>';
+            html += '<td><input type="text" name="rec_name[]" class="form-control" /></td>';
             html += '<td><select type="text" name="rec_type[]" class="form-control" required><option value="">Select</option><option value="Elimination" @if (old('rec_type') == 'Elimination') selected="selected" @endif>Elimination</option><option value="Substitution" @if (old('rec_type') == 'Substitution') selected="selected" @endif>Substitution</option><option value="Engineering Control" @if (old('rec_type') == 'Engineering Control') selected="selected" @endif>Engineering Control</option><option value="Administrative Control" @if (old('rec_type') == 'Administrative Control') selected="selected" @endif>Administrative Control</option><option value="PPE Control" @if (old('rec_type') == 'PPE Control') selected="selected" @endif>PPE Control</option></select></td>';
             if(number > 1)
             {

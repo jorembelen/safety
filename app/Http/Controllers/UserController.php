@@ -44,8 +44,10 @@ class UserController extends Controller
     
         // Delete the old Image from the file
         if(auth()->user()->profile_pic != '') {
-            unlink(public_path('images/uploads/profiles/') . $user->profile_pic);
-            unlink(public_path('images/uploads/profiles-thumb/') . $user->profile_pic);
+            $path1 = 'images/uploads/profiles/';
+            $path2 = 'images/uploads/profiles-thumb/';
+            \File::delete( $path1 .$user->profile_pic);
+            \File::delete( $path2 .$user->profile_pic);
         }
         
         $user->profile_pic = $name;
