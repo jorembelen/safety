@@ -14,7 +14,8 @@
 
 <div class="row layout-top-spacing">
 
-@if(auth()->user()->role != 'user')
+@if(auth()->user()->role == 'super_admin' || auth()->user()->role == 'admin' || auth()->user()->role == 'gm'
+|| auth()->user()->role == 'hsem' || auth()->user()->role == 'member')
     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget-four">
             <div class="widget-heading">
@@ -108,7 +109,7 @@
     <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget-four">
             <div class="widget-heading">
-                <!-- <h5 class="">Summary</h5> -->
+                {{-- <h5 class="">Total Incidents: </h5> --}}
             </div>
             <div class="widget-content">
                 <div class="vistorsBrowser">
@@ -223,8 +224,24 @@
             </div>
         </div>
     </div>
-    
 
+    
+    {{-- <div class="widget widget-five">
+                <div class="widget-content">
+
+                    <div class="header">
+                        <div class="header-body">
+                            <h6>Total Incidents</h6>
+                        </div>
+                    </div>
+
+                    <div class="w-content">
+                        <div class="">                                            
+                            <p class="task-left">{{$data[13]}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
     <div class="widget widget-five">
                 <div class="widget-content">
 
@@ -271,13 +288,13 @@
             </div>
             @endif
 
-            @if(auth()->user()->role == 'user')
+            @if(auth()->user()->role == 'user' || auth()->user()->role == 'site_member')
             <div class="widget widget-five">
                         <div class="widget-content">
 
                             <div class="header">
                                 <div class="header-body">
-                                    <h6>Notifications Report</h6>
+                                    <h6>Notifications</h6>
                                 </div>
                             </div>
 
@@ -318,7 +335,7 @@
             </div>
             
             @endif
-            
+         
 </div>
 @endsection
 

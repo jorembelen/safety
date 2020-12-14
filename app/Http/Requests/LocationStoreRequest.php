@@ -29,4 +29,14 @@ class LocationStoreRequest extends FormRequest
             'loc_name' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'The project name field is required.',
+            'loc_name.required' => 'The location name field is required.',
+        ];
+    }
+
+
 }

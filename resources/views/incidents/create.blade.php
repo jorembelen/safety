@@ -6,7 +6,7 @@
 <div class="row">
 <div class="col-lg-12 layout-spacing mt-4">
                             <div class="statbox widget box box-shadow">
-                                <a href="/admin/notification#!" type="button"class="btn btn-primary mb-2 float-right">
+                                <a href="{{ \URL::previous() }}" type="button"class="btn btn-primary mb-2 float-right">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
                                     Back
                                 </a>  
@@ -19,7 +19,7 @@
                                 </div>
                                 <div class="widget-content widget-content-area">
                                         @include('includes.errors')
-                                <form class="form-horizontal" method="POST" action="{{ route('incidents.store') }}" enctype="multipart/form-data">
+                                <form class="form-horizontal" method="POST" action="{{ route('incidents.store') }}" enctype="multipart/form-data" id="inc-Creates">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                     <div id="circle-basic" class="">
@@ -36,27 +36,25 @@
                                                             <option value="{{$officer->id}}"  @if (old('employee_id') == $officer->id ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}}) </option>
                                                             @endforeach
                                                         </select>
-                                                        @if($errors->has('employee_id'))
-                                                            <span class="help-block text-danger">{{ $errors->first('employee_id') }}</span>
-                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
                               
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="location">Site Location<span class="text-danger"> *</span></label>
                                                 <select name="location" class="form-control basic" data-live-search="true" required>
-                                                <option value="">Select</option>
-                                                            @foreach( $locations as $location)
-                                                            <option value="{{$location->id}}" @if (old('location') == $location->id ) selected="selected" @endif>{{$location->name}} - {{$location->loc_name}}</option>
-                                                            @endforeach
+                                                    @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                                                        <option value="">Select</option>
+                                                        @foreach( $locations as $location)
+                                                        <option value="{{$location->id}}" @if (old('location') == $location->id ) selected="selected" @endif>{{$location->name}} - {{$location->loc_name}}</option>
+                                                        @endforeach
+                                                    @else
+                                                        <option value="{{ auth()->user()->location_id }}">{{ auth()->user()->locations->name }}</option>   
+                                                    @endif
                                                         </select>
-                                                        @if($errors->has('location'))
-                                                            <span class="help-block text-danger">{{ $errors->first('location') }}</span>
-                                                        @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="type">Type Of Incident<span class="text-danger"> *</span></label>
                                                 <select name="type" class="form-control selectpicker" required>
@@ -71,9 +69,6 @@
                                                         <option value="Dangerous Occurence" @if (old('type') == 'Dangerous Occurence') selected="selected" @endif>Dangerous Occurence</option>
                                                         <option value="Near Miss" @if (old('type') == 'Near Miss') selected="selected" @endif>Near Miss</option>
                                                     </select>
-                                                    @if($errors->has('type'))
-                                                        <span class="help-block text-danger">{{ $errors->first('type') }}</span>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -91,7 +86,7 @@
                                             </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="type">Insurance<span class="text-danger"> *</span></label>
+                                                <label for="type">Insurance Type<span class="text-danger"> *</span></label>
                                                 <select name="insurance" class="form-control selectpicker" required>
                                                     <option value="">Select</option>
                                                         <option value="GOSI" @if (old('insurance') == 'GOSI') selected="selected" @endif>GOSI</option>
@@ -102,7 +97,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-2 mb-2">
                                             <div class="form-group">
                                             <label for="sel_involved">Persons Involved<span class="text-danger"> *</span></label>
                                                 <select name="sel_involved" class="form-control selectpicker" id="frst_aid" required>
@@ -120,7 +115,7 @@
                                                 <label for="employee">Employees Details<span class="text-danger"> </span></label>
                                                 <select name="employee[]" class="form-control tagging"  multiple>
                                                     @foreach( $officers as $officer)
-                                                    <option value="{{$officer->badge}} - {{$officer->name}}" @if (old('employee') == '{{$officer->badge}}  {{$officer->name}}' ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}})</option>
+                                                    <option value="{{$officer->badge}} - {{$officer->name}}" @if (old('employee') == '{{$officer->badge}} - {{$officer->name}}' ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}})</option>
                                                     @endforeach
                                                 </select>
                                                 @if($errors->has('employee'))
@@ -142,7 +137,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="injury_location">Injury Location (Select one or more if necessary):<span class="text-danger"> * </span></label>
-                                                <select name="injury_location[]" class="form-control tagging" value="{{ old('injury_location[]') }}"  multiple>
+                                                <select name="injury_location[]" class="form-control tagging" multiple required>
                                                     <option value="Head"  @if (old('injury_location') == 'Head') selected="selected" @endif>Head</option>
                                                     <option value="Face"  @if (old('injury_location') == 'Face') selected="selected" @endif>Face</option>
                                                     <option value="Neck" @if (old('injury_location') == 'Neck') selected="selected" @endif>Neck</option>
@@ -172,8 +167,8 @@
                                             </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                            <label for="inj_sustain">Type of Injury Sustained (Select one or more if necessary):<span class="text-danger"> *</span></label>
-                                            <select name="injury_sustain[]" class="form-control tagging"  multiple>
+                                            <label for="injury_sustain">Type of Injury Sustained (Select one or more if necessary):<span class="text-danger"> *</span></label>
+                                            <select name="injury_sustain[]" class="form-control tagging"  multiple required>
                                                 <option value="Fracture" @if (old('injury_sustain') == 'Fracture') selected="selected" @endif>Fracture</option>
                                                 <option value="Loss of Sight" @if (old('injury_sustain') == 'Loss of Sight') selected="selected" @endif>Loss of Sight</option>
                                                 <option value="Dislocation" @if (old('injury_sustain') == 'Dislocation') selected="selected" @endif>Dislocation</option>
@@ -195,7 +190,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="cause">Immediate Cause(s) (Select one or more if necessary):<span class="text-danger"> *</span></label>
-                                            <select name="cause[]" class="form-control tagging"  multiple>
+                                            <select name="cause[]" class="form-control tagging"  multiple required>
                                                 <option value="Safety Rule Violated" @if (old('cause') == 'Safety Rule Violated') selected="selected" @endif>Safety Rule Violated</option>
                                                 <option value="Lack of Task Skill" @if (old('cause') == 'Lack of Task Skill') selected="selected" @endif>Lack of Task Skill</option>
                                                 <option value="Lack of Supervision" @if (old('cause') == 'Lack of Supervision') selected="selected" @endif>Lack of Supervision</option>
@@ -249,7 +244,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="equipment">Equipment(s) Involved (Select one or more if necessary)<span class="text-danger"> *</span></label>
-                                            <select name="equipment[]" class="form-control tagging"  multiple>
+                                            <select name="equipment[]" class="form-control tagging"  multiple required>
                                                 <option value="Light Vehicle" @if (old('equipment') == 'Light Vehicle') selected="selected" @endif>Light Vehicle</option>
                                                 <option value="Heavy Vehicle" @if (old('equipment') == 'Heavy Vehicle') selected="selected" @endif>Heavy Vehicle</option>
                                                 <option value="Plant Equipment" @if (old('equipment') == 'Plant Equipment') selected="selected" @endif>Plant Equipment</option>
@@ -265,8 +260,8 @@
 
 
                                             <!-- End Row -->
+                                            <button type="submit" class="btn btn-warning waves-effect waves-light">Check</button>
                                     </div>
-
 
                                         </section>
                                         <h3>Second</h3>
@@ -304,9 +299,6 @@
                                                     <option value="4" @if (old('wps') == '4') selected="selected" @endif>4</option>
                                                     <option value="5" @if (old('wps') == '5') selected="selected" @endif>5</option>
                                                 </select>
-                                                    @if($errors->has('wps'))
-                                                        <span class="help-block text-danger">{{ $errors->first('wps') }}</span>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -321,18 +313,13 @@
                                                     <option value="4" @if (old('severity') == '4') selected="selected" @endif>4</option>
                                                     <option value="5" @if (old('severity') == '5') selected="selected" @endif>5</option>
                                                 </select>
-                                                    @if($errors->has('severity'))
-                                                        <span class="help-block text-danger">{{ $errors->first('severity') }}</span>
-                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                 <label for="date">Date and Time of Incident<span class="text-danger"> * </span></label>
-                                                <input type="text" value="{{ old('date') }}" id="dateTimeFlatpickr" name="date" class="form-control flatpickr flatpickr-input active" placeholder="Select Date and Time.." required>
-                                                        @if($errors->has('date'))
-                                                            <span class="help-block text-danger">{{ $errors->first('date') }}</span>
-                                                        @endif
+                                                <input type="date" value="{{ old('date') }}" id="dateTimeFlatpickr" name="date" class="form-control flatpickr flatpickr-input active" placeholder="Select Date and Time.." aria-required="true">
+                                                       
                                                     </div>
                                             </div>
                                             <div class="col-md-4">
@@ -344,23 +331,20 @@
                                                         @endif
                                                     </div>
                                                 </div>
-
-
                                         <!-- End Row -->
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="/incidents#!" type="button" class="btn btn-danger waves-effect">Cancel</a>
-                                            <button id="submitButton" type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
-                                        </div>
-
-                                        </section>
-                                        </form>
                                     </div>
-
-
+                                    <div class="modal-footer">
+                                        <a href="/incidents#!" type="button" class="btn btn-danger waves-effect">Cancel</a>
+                                        <button id="submitButton" type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
+                                    </div>
+                                </section>
                                 </div>
+                                
+                               
+                    </form>
                             </div>
                         </div>
+                    </div>
 
 </div>
 

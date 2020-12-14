@@ -1,3 +1,4 @@
+
 .widget-content-area {
     -webkit-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.09019607843137255), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
     -moz-box-shadow: 0 4px 6px 0 rgba(85, 85, 85, 0.09019607843137255), 0 1px 20px 0 rgba(0, 0, 0, 0.08), 0px 1px 11px 0px rgba(0, 0, 0, 0.06);
@@ -42,7 +43,7 @@ table.dataTable {
 }
 .table > thead > tr > th {
     color: #000000;
-    font-weight: 700;
+    font-weight: 300;
     font-size: 13px;
     border: none;
     letter-spacing: 1px;
@@ -50,8 +51,9 @@ table.dataTable {
 }
 .table > tbody > tr > td {
     border: none;
-    color: #888ea8;
+    color: #000000;
     font-size: 13px;
+    font-weight: 700;
     letter-spacing: 1px;
 }
 .table-striped tbody tr:nth-of-type(odd) {

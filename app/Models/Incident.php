@@ -68,6 +68,6 @@ class Incident extends Model
         });
     }
 
-    
+  
             
 }

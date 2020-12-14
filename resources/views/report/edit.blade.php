@@ -6,17 +6,10 @@
 <div class="row">
 <div class="col-lg-12 layout-spacing mt-4">
                             <div class="statbox widget box box-shadow">
-                            @if(auth()->user()->role != 'user')
-                            <a href="/reports#!" type="button"class="btn btn-primary mb-2 float-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
-                            Back
-                            </a> 
-                            @else
-                            <a href="/admin/investigation#!" type="button"class="btn btn-primary mb-2 float-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
-                                Back
-                            </a> 
-                            @endif  
+                                <a href="{{ \URL::previous() }}" type="button"class="btn btn-primary mb-2 float-right">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
+                                    Back
+                                </a>  
                                 <div class="widget-header">
                                     <div class="row">
                                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">

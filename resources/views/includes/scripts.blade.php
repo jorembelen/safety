@@ -2,6 +2,14 @@
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="/admin/assets/js/libs/jquery-3.1.1.min.js"></script>
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+    {!! JsValidator::formRequest('App\Http\Requests\UserStoreRequest', '#user-form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\EmployeeStoreRequest', '#emp-create'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\LocationStoreRequest', '#loc-create'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\IncidentStoreRequest', '#inc-Create'); !!}
+
+
     <script src="/admin/bootstrap/js/popper.min.js"></script>
     <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
     <script src="/admin/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -27,8 +35,9 @@
 
 
     <!-- Dashboard -->
-    <!-- <script src="/admin/plugins/apex/apexcharts.min.js"></script> -->
+    <script src="/admin/plugins/apex/apexcharts.min.js"></script>
     <script src="/admin/assets/js/dashboard/dash_2.js"></script>
+    <script src="/admin/assets/js/dashboard/dash_1.js"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -49,9 +58,10 @@
     <script src="/admin/assets/js/scrollspyNav.js"></script>
     <script src="/admin/plugins/bootstrap-select/bootstrap-select.min.js"></script>
     <script src="/admin/plugins/highlight/highlight.pack.js"></script>
-    <script src="/admin/plugins/select2/select2.min.js"></script>
     <script src="/admin/plugins/select2/custom-select2.js"></script>
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
+
+
 
 
     <script>
@@ -67,7 +77,6 @@
         tags: true
     });
     </script>
-
 
 
     <script>
@@ -129,7 +138,6 @@ var f2 = flatpickr(document.getElementById('dateTimeFlatpickr'), {
 </script>
 
 
-
 <script>
 $(function() {
     
@@ -171,6 +179,31 @@ $(function() {
 
 </script>
 
+<script>
+$(function() {
+    
+    // run on change for the selectbox
+    
+    $( "#role-sel" ).change(function() {  
+        updateRoleDivs();
+    });
+    
+    // handle the updating of the duration divs
+    function updateRoleDivs() {
+        // hide all form-duration-divs
+        $('.frm-role').hide();
+          
+          // for Leave
+        var roleKey = $( "#role-sel option:selected" ).val();                
+        $('#role'+roleKey).show();
+
+    }        
+
+    // run at load, for the currently selected div to show up
+    updateRoleDivs();
+
+});
+</script>
 
 <script>
 
@@ -316,3 +349,4 @@ $(function() {
 });
 
 </script>
+

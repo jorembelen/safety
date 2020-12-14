@@ -46,30 +46,12 @@ class HomeController extends Controller
         $totalK =  count(Incident::wherestatus('0')->where('user_id', '=', auth()->user()->id)->get());
         $totalL =  count(RootCause::wherestatus('0')->get());
         $totalM =  count(RootCause::wherestatus('0')->where('user_id', '=', auth()->user()->id)->get());
+        $totalN =  count(Incident::all());
 
-        // dd($totalM);
-        $data = [$totalA, $totalB, $totalC, $totalD, $totalE, $totalF, $totalG, $totalH, $totalI, $totalJ, $totalK, $totalL, $totalM];
+        // dd($totalN);
+        $data = [$totalA, $totalB, $totalC, $totalD, $totalE, $totalF, $totalG, $totalH, $totalI, $totalJ, $totalK, $totalL, $totalM, $totalN];
 
         return view('admin.dashboard', compact('data'));
     }
 
-    public function sendNotification()
-    {
-        $user = User::first();
-  
-        $details = [
-            'greeting' => 'Greetings!',
-            'body' => 'New Notifiation Report was added to your site.',
-            'actionText' => 'Go to Site',
-            'actionURL' => url('http://192.168.156.161:8000/admin/notification#!'),
-            'thanks' => 'Please check your data!',
-            'detail_id' => 101
-        ];
-        
-        // dd($details);
-        \Notification::send($user, new UserNotification($details));
-        // $user->notify(new UserNotification($details));
-   
-        Alert::toast('Email notification sent!', 'success');
-    }
 }

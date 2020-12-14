@@ -1,103 +1,138 @@
 @extends('layouts.app')
 
-@section('title', 'Print Report')
 
 <style>
 .inv {
 height:60px;    
 }
 
+td{
+    font-size: 10px;  
+}
 .ref { 
     font-size: 10px;
-    text-align: left;
     }
+
+.body{
+    margin-top: 0em;
+}
 
 .channels {
     float: left;
-    margin-left: 5em;
 }
 .revised {
     font-weight: bold; 
 }
 
 .logo-align {
-    float: right;
-    margin-right: 5em;
+    float: left;
+    margin-left: 6em;
+    margin-top: 1.2em;
 }
 
+.center{
+    margin-left: 16.5em;
+    font-weight: bold; 
+    font-size: 16px;
+    padding-bottom: 0%;
+}
+
+.center-head{
+    font-weight: bold; 
+    font-size: 16px;
+    text-align: absolute;
+    margin-left: 15em;
+    margin-bottom: 0px;
+}
+.center-middle{
+    font-weight: bold; 
+    font-size: 16px;
+    margin-left: 17em;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.revised{
+    font-weight: bold; 
+}
+
+.td-head{
+    font-size: 16px;
+    font-weight: bold; 
+}
 
 </style>
 
 @section('content') 
 
-        <div class="row text-center">
-            <div class="col-md-12">
-                <div class="card-box">
-                        <div class="channels">
-                            <img src="/admin/assets/img/rcl_logo.png" height="65">  
-                        </div> 
+        <div class="body">
                         <div class="logo-align">
-                            <img src="/admin/assets/img/logo.png" height="80">
+                            <img src="{{ public_path('/admin/assets/img/logo.png') }}" height="60">
                         </div>  
-                            <h3>
-                                <strong>REZAYAT GROUP Health and Safety</strong>
-                            </h3>
-                            <h4>Initial Incident/Accident Report</h4>
-                </div>
-            <div>
-        <div>
-<br><br>
-<div class="container">
-<h6 class="ref">RCL-HSE-FM-01.2 - Version 1.0 Rev. Nov 2020</h6> <br>
-                                        <table class="table table-lg table-bordered">
+                            <p class="center-head">
+                               Rezayat Company Limited
+                            </p>
+                            <p class="center-middle">HSE Department</p>
+                            <p class="center">Notification Report</p>
+
+
+                            <br>
+<p class="ref mb-1">RCL-HSE-FM-07.4 - Version 1.0 Rev. Nov 2020</p>
+<div class="">
+                                        <table class="table table-sm table-bordered">
                                             <tbody>
                                                 <tr>
                                                     <td class="align-middle revised" width="12%">Company: </td>
-                                                    <td class="align-middle" width="60%">Rezayat Company Limited</td>
+                                                    <td class="align-middle text-justify" width="60%">Rezayat Company Limited</td>
                                                     <td class="align-middle revised" width="8%">Date: </td>
-                                                    <td class="align-middle">{{ date('M-d-Y', strtotime($incidents->date)) }}</td>
+                                                    <td class="align-middle text-justify">{{ date('M-d-Y', strtotime($incidents->date)) }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="align-middle revised" width="8%">Location: </td>
-                                                    <td class="align-middle">{{ $incidents->locations->loc_name }}</td>
+                                                    <td class="align-middle text-justify">{{ $incidents->locations->loc_name }}</td>
                                                     <td class="align-middle revised" width="8%">Time: </td>
-                                                    <td class="align-middle">{{ date('h:i a', strtotime($incidents->date)) }}</td>
+                                                    <td class="align-middle text-justify">{{ date('h:i a', strtotime($incidents->date)) }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <table class="table table-lg table-bordered">
+                                        <table class="table table-sm table-bordered">
                                             <tbody>
+                                                <tr>
                                                     <td class="align-middle revised" width="18%">Project/Site Name: </td>
-                                                    <td class="align-middle" width="40%">{{ $incidents->locations->name }}</td>
-                                                    <td class="align-middle revised" width="15%">Actual Severity: </td>
+                                                    <td class="align-middle text-justify" width="40%">{{ $incidents->locations->name }}</td>
+                                                    <td class="align-middle text-justify revised" width="15%">Actual Severity: </td>
                                                     <td class="align-middle">{{ $incidents->severity }}</td>
-                                                    <td class="align-middle revised" width="23%">Worst Potential Severity: </td>
+                                                    <td class="align-middle text-left revised" width="23%">Worst Potential Severity: </td>
                                                     <td class="align-middle">{{ $incidents->wps }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <table class="table table-lg table-bordered">
+                                        <table class="table table-sm table-bordered">
                                             <tbody>
+                                                <tr>
                                                     <td class="align-middle revised" width="15%">Persons Involved: </td>
-                                                    <td class="align-middle">{{ $incidents->involved }}</td>
+                                                    <td class="align-middle text-justify" border=1 width="85%">{{ $incidents->involved }}</td>
                                                 </tr>
+                                                <tr>
                                                     <td class="align-middle revised" width="25%">Injury Location by Body Parts: </td>
-                                                    <td class="align-middle">{{ $incidents->injury_location }}</td>
+                                                    <td class="align-middle text-justify">{{ $incidents->injury_location }}</td>
                                                 </tr>
+                                                <tr>
                                                     <td class="align-middle revised" width="25%">Type of Injury Sustained: </td>
-                                                    <td class="align-middle">{{ $incidents->injury_sustain }}</td>
+                                                    <td class="align-middle text-justify">{{ $incidents->injury_sustain }}</td>
                                                 </tr>
+                                                <tr>
                                                     <td class="align-middle revised" width="25%">Immediate Cause(s): </td>
-                                                    <td class="align-middle">{{ $incidents->cause }}</td>
+                                                    <td class="align-middle text-justify">{{ $incidents->cause }}</td>
                                                 </tr>
-                                                </tr>
+                                                <tr>
                                                     <td class="align-middle revised" width="25%">Equipment(s) Involved: </td>
-                                                    <td class="align-middle">{{ $incidents->equipment }}</td>
+                                                    <td class="align-middle text-justify">{{ $incidents->equipment }}</td>
                                                 </tr>
-                                            </tbody>
+                                            {{-- </tbody>
                                         </table>
-                                        <table class="table table-lg table-bordered">
-                                            <tbody>
+                                        <table class="table table-sm table-bordered">
+                                            <tbody> --}}
                                                 <tr>
                                                     <td class="align-middle revised" width="25%">Description of the Event: </td>
                                                     <td class="align-middle text-justify">{{ $incidents->description }}</td>
@@ -106,27 +141,25 @@ height:60px;
                                                 <td class="align-middle revised" width="25%">Immediate Action(s) Taken to Prevent Reoccurance: </td>
                                                     <td class="align-middle text-justify">{{ $incidents->action }}</td>
                                                 </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-sm table-bordered">
+                                            <thead>
                                                 <tr>
-                                                <td class="align-middle revised" width="25%">Person Created the Report:: </td>
-                                                    <td class="align-middle text-justify">{{ $incidents->officer->badge }} - {{ $incidents->officer->name }} ({{ $incidents->officer->designation }})</strong></td>
+                                                    <td class="text-center revised" width="40%">Person Created the Report: </td>
+                                                    <td class="text-center revised" width="40%">Signature:</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="inv">
+                                                    <td class="align-middle text-center">{{ $incidents->officer->badge }} - {{ $incidents->officer->name }} ({{ $incidents->officer->designation }})</td>
+                                                    <td class="align-middle" width="12%"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         
                                         </div>
 
-                                        <div class="text-center d-print-none">
-                                            <a href="javascript:window.print()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer action-print" data-toggle="tooltip" data-placement="top" data-original-title="Reply"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                                            Print</a>
-                                        </div>
 </div>
-
-<script>
-    function myFunction() {
-        window.print();
-    }
-</script>
-
 
 @endsection

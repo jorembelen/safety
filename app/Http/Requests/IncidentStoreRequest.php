@@ -30,8 +30,9 @@ class IncidentStoreRequest extends FormRequest
             'user_id' => 'required',
             'employee_id' => 'required',
             'type' => 'required',
+            'inc_category' => 'required',
+            'insurance' => 'required',
             'wps' => 'required',
-            // 'hosp' => 'required|max:255',
             'sel_involved' => 'required',
             'location' => 'required',
             'severity' => 'required',
@@ -42,33 +43,14 @@ class IncidentStoreRequest extends FormRequest
         ];
     }
 
-    /**
-         * Get the validator instance for the request.
-         *
-         * @return Validator
-         * @throws BindingResolutionException
-         */
-        public function getValidatorInstance()
-        {
-            if ($this->validator) {
-                return $this->validator;
-            }
-
-            $factory = $this->container->make(ValidationFactory::class);
-
-            if (method_exists($this, 'validator')) {
-                $validator = $this->container->call([$this, 'validator'], compact('factory'));
-            } else {
-                $validator = $this->createDefaultValidator($factory);
-            }
-
-            if (method_exists($this, 'withValidator')) {
-                $this->withValidator($validator);
-            }
-
-            $this->setValidator($validator);
-
-            return $this->validator;
-        }
+    public function messages()
+    {
+        return [
+            'employee_id.required' => 'The safety officer\'s name field is required.',
+            'type.required' => 'The incident type field is required.',
+            'inc_category.required' => 'The incident category field is required.',
+            'sel_involved.required' => 'The selection is required.',
+        ];
+    }
 
 }

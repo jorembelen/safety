@@ -7,20 +7,13 @@
  <div class="col-lg-12 layout-spacing mt-4">  
 <div class="bio layout-spacing ">
                             <div class="widget-content widget-content-area">
-                            @if(auth()->user()->role != 'user')
-                                <a href="/admin/notification#!" type="button"class="btn btn-primary mb-2 float-right">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
-                                    Back
-                                </a>
-                            @endif
-                            @if(auth()->user()->role == 'user')   
-                                <a href="/incidents#!" type="button"class="btn btn-primary mb-2 float-right">
+                                <a href="{{ \URL::previous() }}" type="button"class="btn btn-primary mb-2 float-right">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
                                     Back
                                 </a> 
-                            @endif  
                                 <h5 class="">Safety Officer: </h5> <h4>{{ $incidents->officer->badge }} - {{ $incidents->officer->name }} ({{ $incidents->officer->designation }})</h4>
-                               <h8 >Submitted on: <strong>{{ date('M-d-Y h:i a', strtotime($incidents->created_at)) }}</strong></h8>
+                               
+                               
                                 <div class="bio-skill-box">
                                     <br>
                                     <div class="row">
@@ -197,7 +190,8 @@
 
                                         <!-- End row -->
                                     </div>
-
+                                    
+                                    <h8 >Submitted by: <strong>{{ $incidents->user->name }} - ({{ date('M-d-Y h:i a', strtotime($incidents->created_at)) }})</strong></h8>
                                 </div>
 
                             </div>                                

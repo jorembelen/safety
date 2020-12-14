@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'username'
+        'name', 'email', 'password', 'role', 'username', 'location_id'
     ];
 
     /**
@@ -48,5 +48,9 @@ class User extends Authenticatable
         return $this->hasOne(Remark::class);
     }
     
-
+    public function locations()
+    {
+        return $this->belongsTo(Location::class, 'location_id')->withDefault();
+    }
+    
 }

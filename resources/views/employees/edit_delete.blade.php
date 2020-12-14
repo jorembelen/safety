@@ -11,17 +11,26 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                                           </div>
                                           <div class="modal-body">
-                                            <form class="mt-0" method="POST" action="{{ route('employees.update', $employee->id) }}">
+                                            <form class="mt-0" method="POST" action="{{ route('employees.update', $employee->id) }}" id="emp-update">
                                             @csrf
                                             <input type="hidden" name="_method" value="PUT">
                                                     <div class="form-group">
                                                     <input type="text" class="form-control mb-2" value="{{$employee->badge}}" name="badge"  placeholder="Badge">
+                                                    @if($errors->has('badge'))
+                                                      <div class="invalid-feedback">{{ $errors->first('badge') }}</div>
+                                                    @endif
                                                     </div>
                                                     <div class="form-group">
                                                     <input type="text" class="form-control mb-2" value="{{$employee->name}}" name="name" placeholder="Name">
+                                                    @if($errors->has('name'))
+                                                      <div class="invalid-feedback">{{ $errors->first('name') }}</div>
+                                                    @endif
                                                     </div>
                                                     <div class="form-group">
                                                     <input type="text" class="form-control mb-4" value="{{$employee->designation}}" name="designation" placeholder="Designation">
+                                                    @if($errors->has('designation'))
+                                                      <div class="invalid-feedback">{{ $errors->first('designation') }}</div>
+                                                    @endif
                                                     </div>
                                                         <div class="modal-footer justify-content-between">
                                                             <button type="submit" class="btn btn-primary">Save</button>

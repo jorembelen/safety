@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\User;
@@ -17,9 +19,16 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $users = User::where('email', '!=', 'jorembelen@gmail.com')->get();
+        $locations = Location::all();
 
-        return view('admin.index', compact('users'));
+        if(auth()->user()->role == 'super_admin')
+        {
+            $users = User::all();
+        } else {
+            $users = User::where('role', '!=', 'super_admin')->get();
+        }
+
+        return view('admin.index', compact('users', 'locations'));
     }
 
     public function profile($id)
@@ -52,25 +61,21 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'username' => 'required|unique:users',
-            'email' => 'required|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            Alert::error('Error', 'Sorry, there\'s a problem while creating User.');
-            return back()->withErrors($validator);
-        }
-
+        
         $adminUser = new User;
         $adminUser->name = $request->input('name');
         $adminUser->username = $request->input('username');
         $adminUser->email = $request->input('email');
+        $adminUser->role = $request->input('role');
+        if($request->filled('location_id')){
+            $adminUser->location_id = $request->input('location_id');
+        }else{
+            $adminUser->location_id = $request->input('location_id_2');
+        }
         $adminUser->password = bcrypt($request->input('password'));
+  
         $adminUser->save();
 
         Alert::toast('User Has Been Created Successfully', 'success');
@@ -107,38 +112,51 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|unique:users,username,'  .  $id . ',id',
-            'email' => 'required|unique:users,email,'  .  $id . ',id',
-            'password' => 'confirmed',
-        ]);
-
-        if ($validator->fails()) {
-            Alert::error('Error', 'Sorry, there\'s a problem while updating User.');
-            return redirect('/admin/users#!')->withErrors($validator);
-        }
 
         $user = User::findOrFail($id);
-        
-        if(trim($request->password) == '') {
 
+        if(trim($request->password) == '') {
+            
             $input = $request->except('password');
         }else{
-
-        $input = $request->all();
-                 
-        $input['password'] = bcrypt($request->password);
-    }
+            $input = $request->all();
+            $input['password'] = bcrypt($request->password);
+        }
+            
         $user->update($input);
+        
 
         Alert::toast('User Has Been Updated Successfully!', 'success');
 
         return redirect('/admin/users#!');
     }
 
+    public function assignLocation(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        
+        $data = $request->all();
+        if($request->role == 'site_member' || $request->role == 'user' ){
+            if($request->location_id == ''){
+            Alert::error('Error','Please assigned location for this user!');
+                return back();
+            }  
+                $data['role'] = $request->role;
+                $data['location_id'] = $request->location_id;
+        }else{
+            $data['role'] = $request->role;
+            $data['location_id'] = null;
+        }
+        // return $data;
+        $user->update($data);
+
+        Alert::toast('User Has Been Updated Successfully!', 'success');
+
+        return back();
+    }
+    
     /**
      * Remove the specified resource from storage.
      *

@@ -19,6 +19,8 @@ use App\Models\Remark;
 use App\User;
 use Auth;
 use DB;
+use \PDF;
+// use Dompdf\Dompdf;
 
 class ReportController extends Controller
 {
@@ -50,7 +52,10 @@ class ReportController extends Controller
         $photos = explode('|', $reports->proof);
         $images = explode('|', $reports->inc_img);
 
-        return view('reports.print', compact('reports', 'output', 'images', 'photos'));
+        $pdf = PDF::loadView('reports.print_report',compact('reports', 'output', 'images', 'photos'));
+        return $pdf->stream('reports.pdf');
+
+        // return view('reports.print', compact('reports', 'output', 'images', 'photos'));
     }
 
     public function review()
@@ -110,7 +115,8 @@ class ReportController extends Controller
         $url = 'http://192.168.156.161:8000/remarks-detail/' .$id;
         $notification = ' Incident Report ' .$id. ' was remark as ' .$remarks->status. '.';
         $sender = 'Created by: ' .auth()->user()->name;
-        $user = User::whererole('admin')->get();
+        $user = User::where('role', '=', 'admin')
+        ->orWHere('role', '=', 'manager')->get();
        
         $details = [
             'greeting' => $greetings,
@@ -121,8 +127,8 @@ class ReportController extends Controller
             'thanks' => 'Please go to site to view remarks details!',
             'status_id' => $id,
         ];
-        
-        // \Notification::send($user, new ManagerNotification($details));
+        // return $details;
+        \Notification::send($user, new ManagerNotification($details));
 
         Alert::toast('Remarks Successfully Added!', 'success');
         
@@ -309,8 +315,8 @@ class ReportController extends Controller
                 'info_id' => $datas->id,
             ];
             
-            \Notification::send($user, new UserNotification($userDetails));
-            \Notification::send($admin, new AdminNotification($adminDetails));
+            // \Notification::send($user, new UserNotification($userDetails));
+            // \Notification::send($admin, new AdminNotification($adminDetails));
 
             
             $count = count($request->root_name);

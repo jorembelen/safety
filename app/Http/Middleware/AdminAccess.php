@@ -17,7 +17,8 @@ class AdminAccess
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->role != 'user') {
+        if(Auth::check() && Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin'
+        || auth()->user()->role == 'gm' || auth()->user()->role == 'hsem' || auth()->user()->role == 'member') {
             
         return $next($request);
     }
@@ -25,7 +26,7 @@ class AdminAccess
     Alert::error('Error', 'You are not allowed to access this page');
 
     return redirect(route('dashboard'));
-    // ->with('error', 'You are not allowed to access this page.');
 
-}
+    }
+
 }

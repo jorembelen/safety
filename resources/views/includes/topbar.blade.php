@@ -30,10 +30,10 @@
                         </a>
                         <ul class="collapse submenu list-unstyled" id="dashboard" data-parent="#topAccordion">
                         <li>
-                            @if(auth()->user()->role == 'admin')
+                            @if(auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
                                 <a href="/admin/locations#!"> Locations </a>
                                 <a href="/admin/employees#!"> Employees </a>
-                                @if(auth()->user()->email == 'jorembelen@gmail.com')
+                                @if(auth()->user()->role == 'super_admin')
                                 <a href="/admin/import#!"> Import Employees </a>
                                 <a href="/admin/import-locations#!"> Import Locations </a>
                                 @endif
@@ -46,7 +46,8 @@
                             <li class="sub-sub-submenu-list">
                                 <a href="#datatable" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> Incidents <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
                                 <ul class="collapse list-unstyled sub-submenu" id="datatable" data-parent="#datatable">
-                                    @if(auth()->user()->role != 'user')
+                                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'manager' || auth()->user()->role == 'super_admin'
+                                        || auth()->user()->role == 'member' || auth()->user()->role == 'gm' || auth()->user()->role == 'hsem')
                                         <li>
                                             <a href="/admin/notification#!"> Notification </a>
                                         </li>
@@ -54,7 +55,7 @@
                                             <a href="/admin/investigation#!"> Investigation</a>
                                         </li>
                                         @endif
-                                        @if(auth()->user()->role == 'user')
+                                        @if(auth()->user()->role == 'user' || auth()->user()->role == 'site_member')
                                         <li>
                                             <a href="/incidents#!"> Notification</a>
                                         </li>
@@ -66,7 +67,7 @@
                                 </li>
                             </ul>
                         </li>
-                        @if(auth()->user()->role == 'admin')
+                        @if(auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
                     <li class="menu single-menu">
                         <a href="#app" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <div class="">
@@ -83,7 +84,7 @@
                         </ul>
                     </li>
                     @endif
-                    @if(auth()->user()->role != 'user')
+                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin' || auth()->user()->role == 'gm' || auth()->user()->role == 'hsem')
                     <li class="menu single-menu">
                         <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <div class="">

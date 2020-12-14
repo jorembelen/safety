@@ -6,10 +6,10 @@
 <div class="row">
 <div class="col-lg-12 layout-spacing mt-4">
                             <div class="statbox widget box box-shadow">
-                            <a href="/admin/notification#!" type="button"class="btn btn-primary mb-2 float-right">
+                                <a href="{{ \URL::previous() }}" type="button"class="btn btn-primary mb-2 float-right">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-corner-up-left"><polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path></svg>
                                     Back
-                                </a>  
+                                </a> 
                                 <div class="widget-header">
                                     <div class="row">
                                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
@@ -70,7 +70,7 @@
                                             <div class="col-md-3">
                                             <div class="form-group">
                                             <label for="nature">Nature of the Incident/Injury<span class="text-danger"> *</span></label>
-                                                    <select name="nature" class="form-control selectpicker" >
+                                                    <select name="nature" class="form-control selectpicker" required>
                                                             <option value="">Select</option>
                                                             <option value="Occupational" @if (old('nature') == 'Occupational') selected="selected" @endif>Occupational</option>
                                                             <option value="Road Traffic" @if (old('nature') == 'Road Traffic') selected="selected" @endif>Road Traffic</option>
@@ -87,7 +87,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="description">Brief Description of the Incident/Injury<span class="text-danger"> *</span></label>
-                                                <textarea class="form-control" name="description" placeholder="Write your Brief Description of the Incident/Injury here ...">{{ old('description') }}</textarea required>
+                                                <textarea class="form-control" name="description" placeholder="Write your Brief Description of the Incident/Injury here ..." required>{{ old('description') }}</textarea>
                                                 @if($errors->has('description'))
                                                     <span class="help-block text-danger">{{ $errors->first('description') }}</span>
                                                 @endif
@@ -96,7 +96,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                 <label for="details">Details of the Injury (Specify affected body parts)<span class="text-danger"> *</span></label>
-                                                <textarea class="form-control" name="details" placeholder="Write your Details of the Injury here ...">{{ old('details') }}</textarea required>
+                                                <textarea class="form-control" name="details" placeholder="Write your Details of the Injury here ..." required>{{ old('details') }}</textarea>
                                                 @if($errors->has('details'))
                                                     <span class="help-block text-danger">{{ $errors->first('details') }}</span>
                                                 @endif
@@ -105,6 +105,7 @@
                                           
 
                                             <!-- End Row -->
+                                            <button type="submit" class="btn btn-warning waves-effect waves-light">Check</button>
                                     </div>
 
 
@@ -291,6 +292,7 @@
                                             </div>
 
                                             <!-- End Row -->
+                                            <button type="submit" class="btn btn-warning waves-effect waves-light">Check</button>
                                             </div>
 
                                         </section>
@@ -412,7 +414,7 @@
                                         <div class="col-md-3">
                                                 <div class="form-group">
                                                 <label for="witness">Were there any witnesses?<span class="text-danger"> *</span></label>
-                                                <select name="witness" class="form-control" id="witness_frm">
+                                                <select name="witness" class="form-control" id="witness_frm" required>
                                                                 <option value="">Select</option>
                                                                 <option value="Yes" @if (old('witness') == 'Yes') selected="selected" @endif>Yes</option>
                                                                 <option value="No" @if (old('witness') == 'No') selected="selected" @endif>No</option>
@@ -455,6 +457,7 @@
                                         </div>
 
                                         <!-- End Row -->
+                                        <button type="submit" class="btn btn-warning waves-effect waves-light">Check</button>
                                         </div>
 
 
@@ -497,7 +500,7 @@
                                                 <div class="form-group custom-file-container" data-upload-id="mySecondImage">
                                                             <label>Incident Images (Attach image) <a href="#" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
                                                             <label class="custom-file-container__custom-file" >
-                                                                <input type="file" class=" form-controlcustom-file-container__custom-file__custom-file-input" name="inc_img[]"  multiple>
+                                                                <input type="file" class=" form-controlcustom-file-container__custom-file__custom-file-input" name="inc_img[]"  multiple required>
                                                                
                                                                 <span class="custom-file-container__custom-file__custom-file-control"></span>
                                                             </label>
@@ -516,13 +519,13 @@
                                         <!-- End Row -->
                                         </div>
 
+                                        
                                         <div class="modal-footer">
                                             <a href="/incidents#!" type="button" class="btn btn-danger waves-effect">Cancel</a>
                                             <button type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
                                         </div>
-
-                                        </section>
-                                        </form>
+                                    </form>
+                                    </section>
                                     </div>
 
 
@@ -544,9 +547,9 @@
     function dynamic_field(number)
     {
     html = '<tr>';
-            html += '<td><input type="text" name="root_name[]" class="form-control" /></td>';
+            html += '<td><input type="text" name="root_name[]" class="form-control" required/></td>';
             html += '<td><select type="text" name="root_description[]" class="form-control" required><option value="">Select</option><option value="People" @if (old('root_description') == 'People') selected="selected" @endif>People</option><option value="Process" @if (old('root_description') == 'Process & Procedure') selected="selected" @endif>Process & Procedure</option><option value="Equipment" @if (old('root_description') == 'Equipment') selected="selected" @endif>Equipment</option><option value="Workplace" @if (old('root_description') == 'Workplace') selected="selected" @endif>Workplace</option></select></td>';
-            html += '<td><input type="text" name="rec_name[]" class="form-control" /></td>';
+            html += '<td><input type="text" name="rec_name[]" class="form-control" required/></td>';
             html += '<td><select type="text" name="rec_type[]" class="form-control" required><option value="">Select</option><option value="Elimination" @if (old('rec_type') == 'Elimination') selected="selected" @endif>Elimination</option><option value="Substitution" @if (old('rec_type') == 'Substitution') selected="selected" @endif>Substitution</option><option value="Engineering Control" @if (old('rec_type') == 'Engineering Control') selected="selected" @endif>Engineering Control</option><option value="Administrative Control" @if (old('rec_type') == 'Administrative Control') selected="selected" @endif>Administrative Control</option><option value="PPE Control" @if (old('rec_type') == 'PPE Control') selected="selected" @endif>PPE Control</option></select></td>';
             if(number > 1)
             {

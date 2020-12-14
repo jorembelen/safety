@@ -16,6 +16,7 @@ use Auth;
 use Validator;
 use App\Notifications\AdminNotification;
 use App\Notifications\UserNotification;
+use \PDF;
 
 class IncidentController extends Controller
 {
@@ -27,12 +28,15 @@ class IncidentController extends Controller
     public function index(Request $request)
     {
      
-        $incidents = Incident::whereuser_id(Auth::user()->id)->latest()->get();
+        $incidents = Incident::wherelocation(auth()->user()->location_id)->latest()->get();
         // $incidents = $source->where('$user->->user->role', '==', 'admin')->get();
         
         return view('incidents.index', compact('incidents'));
     }
     
+    
+
+
     public function adminIndex()
     {
         
@@ -69,7 +73,10 @@ class IncidentController extends Controller
     {
         $incidents = Incident::findOrFail($id);
 
-        return view('reports.print_remarks', compact('incidents'));
+        $pdf = PDF::loadView('reports.print_remarks',['incidents' => $incidents]);
+        return $pdf->stream('reports.pdf');
+
+        // return view('reports.print_remarks2', compact('incidents'));
     }
 
     /**
@@ -79,13 +86,19 @@ class IncidentController extends Controller
      */
     public function create()
     {
-        
+        // dd('create');
 
         $officers = Employee::all();
         $locations = Location::all();
+        // $area = auth()->user()->location_id;
+        // $names = Location::whereid($area)->get();
+
+        // // return $names;
+        // foreach ($names as $data)
 
         return view('incidents.create')
         ->with('officers', $officers)
+        // ->with('data', $data)
         ->with('locations', $locations);
     }
     
@@ -127,13 +140,12 @@ class IncidentController extends Controller
             $greetings = "Good Night!";
         }
 
-        $validator = $request->getValidatorInstance();
 
         $incidents = new Incident;
         
         $data = $request->all();
 
-        
+        // return $project = User::wherelocation_id($request->location)->get();
         if($request->hasfile('docs')){
             $doc = $request->file('docs');
             
@@ -175,30 +187,36 @@ class IncidentController extends Controller
 
         Alert::toast('Notification Report Added Successfully!', 'success');
         
-        $url = 'http://192.168.156.161:8000/incidents/' .$output->id;
+        // This is for notification area
+        $url = 'http://hse.net/view-notification/' .$output->id;
         $sender = 'Created by: ' .auth()->user()->name;
         $project = $output->location;
         $op = \DB::table('locations')->where('id', $project)->first();
         $location = 'Project: ' .$op->name;
         $title = 'Type of Incident: ' .$output->type;
-        $user = User::where('id', '=', auth()->user()->id)->get();
-        $admin = User::whererole('admin')->get();
-  
+        // $user = User::where('id', '=', auth()->user()->id)->get();
+        $admin = User::whererole('admin')
+        ->orWhere('role', '=', 'member')
+        ->orWhere('role', '=', 'gm')
+        ->orWhere('role', '=', 'hsem')
+        ->get();
+        $user = User::wherelocation_id($request->location)->get();
+        
             $adminDetails = [
                 'greeting' => $greetings,
-                'body' => ' New Notification Report was added to your site.',
+                'body' => ' New Notification Report was added to the site.',
                 'officer' =>  $sender,
                 'project' =>  $title,
                 'location' =>  $location,
-                'actionText' => 'Go to Site',
+                'actionText' => 'Click here.',
                 'actionURL' => url($url),
-                'thanks' => 'Please go to site to view notification details!',
+                'thanks' => 'Please click the button to view notification details!',
                 'detail_id' => $output->id,
             ];
 
             $userDetails = [
                 'greeting' => $greetings,
-                'body' => 'Your Notification Report was successfully created!',
+                'body' => 'Notification Report was successfully created!',
                 'project' =>  $title,
                 'location' =>  $location,
                 'actionText' => 'Go to Site',
@@ -207,8 +225,11 @@ class IncidentController extends Controller
                 'info_id' => $output->id,
             ];
             
+            // return $project;
             // \Notification::send($user, new UserNotification($userDetails));
-            // \Notification::send($admin, new AdminNotification($adminDetails));
+            \Notification::send($admin, new AdminNotification($adminDetails));
+            // \Notification::send($project, new AdminNotification($userDetails));
+            // End for Notification
 
             return redirect('/incidents');
             
@@ -317,7 +338,7 @@ class IncidentController extends Controller
 
         Alert::toast('Report Updated Successfully!', 'success');
             
-        return redirect('/incidents');
+        return back();
             
     }
 
@@ -347,7 +368,7 @@ class IncidentController extends Controller
 
         Alert::success('Success', 'Report Has Been Deleted Successfully');
 
-        return redirect('/incidents');
+        return back();
 
     }
 

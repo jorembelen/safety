@@ -11,4 +11,6 @@ class Location extends Model
         'name',
         'loc_name'
     ];
+
+    
 }

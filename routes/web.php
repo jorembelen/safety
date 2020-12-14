@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('home');
 // });
-
+Route::get('/view-notification/{id}', 'IncidentController@printNotification')->name('print.notification');
+Route::get('/view-report/{id}', 'ReportController@printReport')->name('print.report');
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function() {
@@ -49,8 +50,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/export/notification', 'IncidentController@export');
 
     // For Printing
-    Route::get('/print-report/{id}', 'ReportController@printReport')->name('print.report');
-    Route::get('/print-notification/{id}', 'IncidentController@printNotification')->name('print.notification');
+    // Route::get('/print-report/{id}', 'ReportController@printReport')->name('print.report');
+    // Route::get('/print-notification/{id}', 'IncidentController@printNotification')->name('print.notification');
 
  });
 
@@ -73,5 +74,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('send', 'HomeController@sendNotification');
 
     Route::get('backup', 'AdminController@backup');
+
+    Route::put('assign-location/{id}', 'AdminController@assignLocation')->name('user.location');
 
 });

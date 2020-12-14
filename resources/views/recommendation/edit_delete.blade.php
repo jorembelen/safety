@@ -15,7 +15,7 @@
                                             @csrf
                                             <input type="hidden" name="_method" value="PUT">
                                                     <div class="form-group">
-                                                    <input type="text" class="form-control mb-2" value="{{$item->root_name}}" name="root_name"  placeholder="Root Cause">
+                                                      <textarea name="root_name" class="form-control" rows="3">{{$item->root_name}}</textarea>
                                                     </div>
                                                     <div class="form-group">
                                                     <select name="type" class="form-control selectpicker" required>
@@ -27,7 +27,7 @@
                                                     </select>
                                                     </div>
                                                     <div class="form-group">
-                                                    <input type="text" class="form-control mb-4" value="{{$item->rec_name}}" name="rec_name" placeholder="Recommendation">
+                                                      <textarea name="rec_name" class="form-control" rows="3">{{$item->rec_name}}</textarea>
                                                     </div>
                                                     <div class="form-group">
                                                     <select name="rec_type" class="form-control selectpicker" required>
@@ -39,7 +39,7 @@
                                                             <option value="PPE" @if (old('rec_type') == 'PPE') selected="selected" @endif>PPE</option>
                                                     </select>
                                                     </div>
-                                                    @if(auth()->user()->role == 'admin')
+                                                    @if(auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
                                                     <div class="form-group">
                                                     <select name="status" class="form-control selectpicker" required>
                                                             <option value="{{ $item->status }}">
@@ -70,7 +70,7 @@
 
                           
                                                   <!-- Delete Modal -->
-                                                  <div class="modal fade" id="delete{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteConformationLabel" aria-hidden="true">
+                                                  <div class="modal fade" id="deleteModal{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteConformationLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content" id="deleteConformationLabel">
                                                             <div class="modal-header">

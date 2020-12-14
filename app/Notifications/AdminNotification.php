@@ -45,7 +45,6 @@ class AdminNotification extends Notification
         return (new MailMessage)
                             ->greeting($this->details['greeting'])
                             ->line($this->details['body'])
-                            ->line($this->details['officer'])
                             ->line($this->details['project'])
                             ->line($this->details['location'])
                             ->action($this->details['actionText'], $this->details['actionURL'])
@@ -61,7 +60,7 @@ class AdminNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'detail_id' => $this->details['detail_id']
+            // 
         ];
     }
 }

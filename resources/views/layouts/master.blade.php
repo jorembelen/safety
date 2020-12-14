@@ -38,6 +38,7 @@
     <!-- Dashboard -->
     <link href="/admin/plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
     <link href="/admin/assets/css/dashboard/dash_2.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
     <link href="/admin/plugins/animate/animate.css" rel="stylesheet" type="text/css" />
@@ -56,10 +57,9 @@
     <link href="/admin/assets/css/components/tabs-accordian/custom-accordions.css" rel="stylesheet" type="text/css" />
     
     <!--  BEGIN CUSTOM STYLE FILE  SELECT-->
-    <!-- <link href="/admin/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" /> -->
+    <link href="/admin/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" /> 
     <link rel="stylesheet" type="text/css" href="/admin/plugins/select2/select2.min.css">
     <link rel="stylesheet" type="text/css" href="/admin/plugins/bootstrap-select/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="/admin/plugins/select2/select2.min.css">
     <!--  END CUSTOM STYLE FILE  -->
 
     <!-- END GLOBAL MANDATORY STYLES -->

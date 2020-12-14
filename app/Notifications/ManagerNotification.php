@@ -31,7 +31,7 @@ class ManagerNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail','database'];
+        return ['mail'];
     }
 
     /**
@@ -58,8 +58,6 @@ class ManagerNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            'status_id' => $this->details['status_id']
-        ];
+        // 
     }
 }
