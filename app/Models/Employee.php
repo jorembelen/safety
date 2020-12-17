@@ -16,4 +16,11 @@ class Employee extends Model
     {
         return $this->hasMany(Incident::class);
     }
+
+    public function officer()
+    {
+        return $this->belongsTo(Incident::class);
+    }
+
+
 }

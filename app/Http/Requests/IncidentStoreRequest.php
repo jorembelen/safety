@@ -32,9 +32,13 @@ class IncidentStoreRequest extends FormRequest
             'type' => 'required',
             'inc_category' => 'required',
             'insurance' => 'required',
+            'injury_location' => 'required',
+            'injury_sustain' => 'required',
+            'cause' => 'required',
+            'equipment' => 'required',
             'wps' => 'required',
             'sel_involved' => 'required',
-            'location' => 'required',
+            'location' => 'required|exists:locations,id',
             'severity' => 'required',
             'description' => 'required',
             'action' => 'required',
@@ -50,6 +54,8 @@ class IncidentStoreRequest extends FormRequest
             'type.required' => 'The incident type field is required.',
             'inc_category.required' => 'The incident category field is required.',
             'sel_involved.required' => 'The selection is required.',
+            'cause.required' => 'The immediate cause field is required.',
+            'equipment.required' => 'The equipment involved field is required.',
         ];
     }
 

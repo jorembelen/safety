@@ -115,11 +115,18 @@ class LocationController extends Controller
     public function destroy($id)
     {
         $location = Location::findOrFail($id);
+        
+        if($location->incident()->count()) {
+
+            Alert::error('Error', 'Sorry, this location has an existing notification report!');
+            return back();
+            
+        } 
 
         $location->delete();
 
         Alert::success('success', 'Location Deleted Successfully!');
             
-        return redirect('/admin/locations');
+        return back();
     }
 }

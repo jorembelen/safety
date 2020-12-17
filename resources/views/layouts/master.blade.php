@@ -62,6 +62,7 @@
     <link rel="stylesheet" type="text/css" href="/admin/plugins/bootstrap-select/bootstrap-select.min.css">
     <!--  END CUSTOM STYLE FILE  -->
 
+    <link href="/admin/assets/chart/css/app.css" rel="stylesheet" />
     <!-- END GLOBAL MANDATORY STYLES -->
     
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->

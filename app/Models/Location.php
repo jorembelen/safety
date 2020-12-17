@@ -12,5 +12,8 @@ class Location extends Model
         'loc_name'
     ];
 
-    
+    public function incident()
+    {
+        return $this->hasMany(Incident::class, 'location');
+    }
 }

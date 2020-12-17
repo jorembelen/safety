@@ -53,4 +53,8 @@ class User extends Authenticatable
         return $this->belongsTo(Location::class, 'location_id')->withDefault();
     }
     
+    public function incidents()
+    {
+        return $this->hasMany(Incident::class);
+    }
 }

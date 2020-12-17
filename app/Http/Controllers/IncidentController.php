@@ -56,7 +56,7 @@ class IncidentController extends Controller
 
     public function awaiting()
     {
-        $incidents = Incident::wherestatus('0')->whereuser_id(auth()->user()->id)->get();
+        $incidents = Incident::wherestatus('0')->wherelocation(auth()->user()->location_id)->get();
 
         return view('incidents.index', compact('incidents'));
     }
@@ -194,13 +194,12 @@ class IncidentController extends Controller
         $op = \DB::table('locations')->where('id', $project)->first();
         $location = 'Project: ' .$op->name;
         $title = 'Type of Incident: ' .$output->type;
-        // $user = User::where('id', '=', auth()->user()->id)->get();
         $admin = User::whererole('admin')
         ->orWhere('role', '=', 'member')
         ->orWhere('role', '=', 'gm')
         ->orWhere('role', '=', 'hsem')
         ->get();
-        $user = User::wherelocation_id($request->location)->get();
+        $user = User::wherelocation_id($output->location)->get();
         
             $adminDetails = [
                 'greeting' => $greetings,
@@ -208,7 +207,7 @@ class IncidentController extends Controller
                 'officer' =>  $sender,
                 'project' =>  $title,
                 'location' =>  $location,
-                'actionText' => 'Click here.',
+                'actionText' => 'Click here',
                 'actionURL' => url($url),
                 'thanks' => 'Please click the button to view notification details!',
                 'detail_id' => $output->id,
@@ -219,16 +218,15 @@ class IncidentController extends Controller
                 'body' => 'Notification Report was successfully created!',
                 'project' =>  $title,
                 'location' =>  $location,
-                'actionText' => 'Go to Site',
+                'actionText' => 'Click here',
                 'actionURL' => url($url),
                 'thanks' => 'Please go to site to view incident details!',
                 'info_id' => $output->id,
             ];
             
             // return $project;
-            // \Notification::send($user, new UserNotification($userDetails));
+            \Notification::send($user, new UserNotification($userDetails));
             \Notification::send($admin, new AdminNotification($adminDetails));
-            // \Notification::send($project, new AdminNotification($userDetails));
             // End for Notification
 
             return redirect('/incidents');

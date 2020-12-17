@@ -229,7 +229,7 @@
                                                     <!-- <td width="25%"><strong>Attachment Document</strong></td> -->
                                                    <td>
                                                             @if(!empty($reports->docs))
-                                                   <a class="bs-tooltip" title="Click to download this attachment!" href="{{url('../')}}/files/documents/{{ $reports->docs }}" target="_blank" rel="noopener noreferrer">
+                                                   <a class="bs-tooltip" title="Click to download this attachment!" href="{{ asset('files/documents/'.$reports->docs) }}" target="_blank" rel="noopener noreferrer">
                                                     <button class="btn btn-danger mb-2 mr-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                                                     Attachment</button>
@@ -248,8 +248,8 @@
                                             <div id="demo-test-gallery" class="demo-gallery" data-pswp-uid="1">
                                             @if(!empty($reports->proof))
                                                 @foreach ($photos as $image)
-                                                <a class="img-1" href="{{url('../')}}/files/image/{{ $image ? $image : 'no_image.jpg' }}" data-size="1600x1068" data-med="{{url('../')}}/files/thumbnail/{{ $image ? $image : 'no_image.jpg' }}" data-med-size="1024x683" data-author="Samuel Rohl">
-                                                    <img src="{{url('../')}}/files/thumbnail/{{ $image ? $image : 'no_image.jpg' }}" alt="image-gallery">
+                                                <a class="img-1" href="{{ asset('files/image/'.$image ) }}" data-size="1600x1068" data-med="{{url('../')}}/files/thumbnail/{{ $image ? $image : 'no_image.jpg' }}" data-med-size="1024x683" data-author="Samuel Rohl">
+                                                    <img src="{{ asset('files/thumbnail/'.$image) }}" alt="image-gallery">
                                                    
                                                 </a>
                                                 @endforeach
@@ -312,8 +312,8 @@
                                             <div id="demo-test-gallery" class="demo-gallery" data-pswp-uid="1">
                                             @if(!empty($reports->inc_img))
                                                 @foreach ($images as $img)
-                                                <a class="img-1" href="{{url('../')}}/files/image/{{ $img ? $img : 'no_image.jpg' }}" data-size="1600x1068" data-med="{{url('../')}}/files/thumbnail/{{ $img ? $img : 'no_image.jpg' }}" data-med-size="1024x683" data-author="Samuel Rohl">
-                                                    <img src="{{url('../')}}/files/thumbnail/{{ $img ? $img : 'no_image.jpg' }}" alt="image-gallery">
+                                                <a class="img-1" href="{{ asset('files/image/'.$img) }}" data-size="1600x1068" data-med="{{url('../')}}/files/thumbnail/{{ $img ? $img : 'no_image.jpg' }}" data-med-size="1024x683" data-author="Samuel Rohl">
+                                                    <img src="{{ asset('files/thumbnail/'.$img) }}" alt="image-gallery">
                                                    
                                                 </a>
                                                 @endforeach

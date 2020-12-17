@@ -101,8 +101,8 @@
                                                         @endif
                                                     </div>
                                                     <div class="form-group">
-                                                        <select name="role" class="form-control selectpicker" data-live-search="true">
-                                                            <option value="{!! $user->role !!}" selected>{{ Str::ucfirst($user->role) }}</option>
+                                                        <select name="role" class="form-control selectpicker">
+                                                            <option value="{{  $user->role }}" selected>{{  Str::upper($user->role)  }}</option>
                                                              <option value="admin">Admin</option>
                                                              <option value="user">User</option>
                                                              <option value="site_member">Site Member</option>
@@ -156,8 +156,8 @@
                                                                 <p class="">If you delete the data it will be gone forever. Are you sure you want to proceed?</p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                                                                 <button type="submit" class="btn btn-danger">Delete</button>
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
                                                             </div>
                                                             </form>
                                                     </div>

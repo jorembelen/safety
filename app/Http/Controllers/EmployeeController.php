@@ -9,6 +9,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Imports\EmployeesImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Employee;
+use App\Models\Incident;
 
 class EmployeeController extends Controller
 {
@@ -19,7 +20,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::latest()->paginate(10);
+        // $employees = Employee::with('officer')->paginate(10);
+        $employees = Employee::paginate(10);
 
         return view('employees.index', ['employees' => $employees]);
     }
@@ -131,10 +133,18 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
+        $employees = Employee::paginate(10);
 
-        $officer = Employee::findOrFail($id);
+        $employee = Employee::findOrFail($id);
 
-        $officer->delete();
+        if($employee->incidents()->count()) {
+            
+            Alert::error('Error', 'Sorry, this employee has an existing notification report!');
+            
+            return redirect('/admin/employees');
+        }
+       
+        $employee->delete();
 
         Alert::success('success', 'Data Deleted Successfully!');
 

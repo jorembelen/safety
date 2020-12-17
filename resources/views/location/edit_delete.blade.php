@@ -60,8 +60,8 @@
                                                 <p class="">If you delete the data it will be gone forever. Are you sure you want to proceed?</p>
                                             </div>
                                             <div class="modal-footer">
+                                              <button type="submit" class="btn btn-danger">Delete</button>
                                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                                                <button type="submit" class="btn btn-danger">Delete</button>
                                             </div>
                                             </form>
                                     </div>

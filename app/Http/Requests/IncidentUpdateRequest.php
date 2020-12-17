@@ -28,7 +28,7 @@ class IncidentUpdateRequest extends FormRequest
             'employee_id' => 'required',
             'type' => 'required',
             'wps' => 'required',
-            'location' => 'required',
+            'location' => 'required|exists:locations,id',
             'severity' => 'required',
             'description' => 'required',
             'action' => 'required',

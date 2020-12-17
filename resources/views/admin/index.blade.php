@@ -45,7 +45,12 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->username }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td> <span class="badge badge-pills badge-warning">{{ Str::upper($user->role) }}</span></a></td>
+                                            <td>
+                                                @if($user->role == 'user' || $user->role == 'site_member')
+                                                <span class="badge badge-pills badge-warning">{{ Str::upper($user->role) }}</span></td>
+                                                @else
+                                                <span class="badge badge-pills badge-info">{{ Str::upper($user->role) }}</span></td>
+                                                @endif
                                          
                                             <td>{{ $user->locations->name }} - {{ $user->locations->loc_name }}</td>
                                        

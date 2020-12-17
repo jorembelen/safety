@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Incident;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\User;
 use Validator;
 use App\Models\Location;
+use Illuminate\Support\Facades\Artisan;
 
 class AdminController extends Controller
 {
@@ -41,7 +43,7 @@ class AdminController extends Controller
 
     public function backup()
     {
-       \Artisan::call('backup:run', ['--only-db' => true]);
+       Artisan::call('backup:run', ['--only-db' => true]);
 
         Alert::success('Success', 'Backup Has Been Created Successfully');
     }
@@ -165,24 +167,26 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
+        
+        // if($user->incidents()->count()) {
+        if(Incident::where('user_id', '=', $id)->exists()) {
 
-        if(auth()->user()->id == $id) {
+        Alert::error('Error', 'Sorry, this user has an existing notification report!');
+        return back();
 
-            Alert::error('Error', 'Sorry, you cannot delete your own account!.');
-            return redirect()->back();
-
+  
         } else {
             $path1 = 'images/uploads/profiles/';
             $path2 = 'images/uploads/profiles-thumb/';
             \File::delete( $path1 .$user->profile_pic);
             \File::delete( $path2 .$user->profile_pic);
-
+            
             $user->delete();
 
             Alert::success('Success', 'User Has Been Deleted Successfully');
         }
 
-        return redirect('/admin/users#!');
+        return back();
     }
 }

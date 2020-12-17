@@ -19,30 +19,30 @@
                                 </div>
                                 <div class="widget-content widget-content-area">
                                         @include('includes.errors')
-                                <form class="form-horizontal" method="POST" action="{{ route('incidents.store') }}" enctype="multipart/form-data" id="inc-Creates">
+                                <form class="form-horizontal" method="POST" action="{{ route('incidents.store') }}" enctype="multipart/form-data" id="inc-Create">
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                     <div id="circle-basic" class="">
                                         <h3>First</h3>
                                         <section>
-
                                         <div class="row">
+
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="employee_id">Safety Officer<span class="text-danger"> * </span></label>
-                                                <select name="employee_id" class="form-control basic" data-live-search="true"  required>
-                                                            <option value="">Select</option>
-                                                            @foreach( $officers as $officer)
-                                                            <option value="{{$officer->id}}"  @if (old('employee_id') == $officer->id ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}}) </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                                            <select name="employee_id" class="form-control basic" data-live-search="true"  >
+                                                        <option value="">Select</option>
+                                                        @foreach( $officers as $officer)
+                                                        <option value="{{$officer->id}}"  @if (old('employee_id') == $officer->id ) selected="selected" @endif>{{$officer->badge}} - {{$officer->name}} ({{$officer->designation}}) </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
+                                            </div>
                               
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="location">Site Location<span class="text-danger"> *</span></label>
-                                                <select name="location" class="form-control basic" data-live-search="true" required>
+                                                <select name="location" class="form-control basic" data-live-search="true" >
                                                     @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
                                                         <option value="">Select</option>
                                                         @foreach( $locations as $location)
@@ -57,7 +57,7 @@
                                             <div class="col-md-4 mb-2">
                                             <div class="form-group">
                                                 <label for="type">Type Of Incident<span class="text-danger"> *</span></label>
-                                                <select name="type" class="form-control selectpicker" required>
+                                                <select name="type" class="form-control " >
                                                     <option value="">Select</option>
                                                         <option value="Fatality" @if (old('type') == 'Fatality') selected="selected" @endif>Fatality</option>
                                                         <option value="Lost Time Injury" @if (old('type') == 'Lost Time Injury') selected="selected" @endif>Lost Time Injury</option>
@@ -74,7 +74,7 @@
                                             <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="type">Incident Category<span class="text-danger"> *</span></label>
-                                                <select name="inc_category" class="form-control selectpicker" required>
+                                                <select name="inc_category" class="form-control " >
                                                     <option value="">Select</option>
                                                         <option value="Work Related" @if (old('inc_category') == 'Work Related') selected="selected" @endif>Work Related</option>
                                                         <option value="Non Work Related" @if (old('inc_category') == 'Non Work Related') selected="selected" @endif>Non Work Related</option>
@@ -87,7 +87,7 @@
                                             <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="type">Insurance Type<span class="text-danger"> *</span></label>
-                                                <select name="insurance" class="form-control selectpicker" required>
+                                                <select name="insurance" class="form-control " >
                                                     <option value="">Select</option>
                                                         <option value="GOSI" @if (old('insurance') == 'GOSI') selected="selected" @endif>GOSI</option>
                                                         <option value="Non GOSI" @if (old('insurance') == 'Non GOSI') selected="selected" @endif>Non GOSI</option>
@@ -100,7 +100,7 @@
                                             <div class="col-md-2 mb-2">
                                             <div class="form-group">
                                             <label for="sel_involved">Persons Involved<span class="text-danger"> *</span></label>
-                                                <select name="sel_involved" class="form-control selectpicker" id="frst_aid" required>
+                                                <select name="sel_involved" class="form-control " id="frst_aid" >
                                                                 <option value="">Select</option>
                                                                 <option value="Employee" @if (old('sel_involved') == 'Employee') selected="selected" @endif>Employee</option>
                                                                 <option value="NonEmployee" @if (old('sel_involved') == 'NonEmployee') selected="selected" @endif>Non Employee</option>
@@ -137,7 +137,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="injury_location">Injury Location (Select one or more if necessary):<span class="text-danger"> * </span></label>
-                                                <select name="injury_location[]" class="form-control tagging" multiple required>
+                                                <select name="injury_location[]" class="form-control tagging" multiple >
                                                     <option value="Head"  @if (old('injury_location') == 'Head') selected="selected" @endif>Head</option>
                                                     <option value="Face"  @if (old('injury_location') == 'Face') selected="selected" @endif>Face</option>
                                                     <option value="Neck" @if (old('injury_location') == 'Neck') selected="selected" @endif>Neck</option>
@@ -168,7 +168,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="injury_sustain">Type of Injury Sustained (Select one or more if necessary):<span class="text-danger"> *</span></label>
-                                            <select name="injury_sustain[]" class="form-control tagging"  multiple required>
+                                            <select name="injury_sustain[]" class="form-control tagging"  multiple >
                                                 <option value="Fracture" @if (old('injury_sustain') == 'Fracture') selected="selected" @endif>Fracture</option>
                                                 <option value="Loss of Sight" @if (old('injury_sustain') == 'Loss of Sight') selected="selected" @endif>Loss of Sight</option>
                                                 <option value="Dislocation" @if (old('injury_sustain') == 'Dislocation') selected="selected" @endif>Dislocation</option>
@@ -190,7 +190,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="cause">Immediate Cause(s) (Select one or more if necessary):<span class="text-danger"> *</span></label>
-                                            <select name="cause[]" class="form-control tagging"  multiple required>
+                                            <select name="cause[]" class="form-control tagging"  multiple >
                                                 <option value="Safety Rule Violated" @if (old('cause') == 'Safety Rule Violated') selected="selected" @endif>Safety Rule Violated</option>
                                                 <option value="Lack of Task Skill" @if (old('cause') == 'Lack of Task Skill') selected="selected" @endif>Lack of Task Skill</option>
                                                 <option value="Lack of Supervision" @if (old('cause') == 'Lack of Supervision') selected="selected" @endif>Lack of Supervision</option>
@@ -244,7 +244,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                             <label for="equipment">Equipment(s) Involved (Select one or more if necessary)<span class="text-danger"> *</span></label>
-                                            <select name="equipment[]" class="form-control tagging"  multiple required>
+                                            <select name="equipment[]" class="form-control tagging"  multiple >
                                                 <option value="Light Vehicle" @if (old('equipment') == 'Light Vehicle') selected="selected" @endif>Light Vehicle</option>
                                                 <option value="Heavy Vehicle" @if (old('equipment') == 'Heavy Vehicle') selected="selected" @endif>Heavy Vehicle</option>
                                                 <option value="Plant Equipment" @if (old('equipment') == 'Plant Equipment') selected="selected" @endif>Plant Equipment</option>
@@ -260,7 +260,7 @@
 
 
                                             <!-- End Row -->
-                                            <button type="submit" class="btn btn-warning waves-effect waves-light">Check</button>
+                                            <button type="submit" class="btn btn-warning waves-effect waves-light bs-tooltip" title="Click to check the required field!">Check</button>
                                     </div>
 
                                         </section>
@@ -272,7 +272,7 @@
                                             <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="description">Description of the Event<span class="text-danger"> *</span></label>
-                                                <textarea class="form-control" name="description" id="field-7" placeholder="Write your description here ..." required>{{ old('description') }}</textarea>
+                                                <textarea class="form-control" name="description" id="field-7" placeholder="Write your description here ..." >{{ old('description') }}</textarea>
                                                     @if($errors->has('description'))
                                                         <span class="help-block text-danger">{{ $errors->first('description') }}</span>
                                                     @endif
@@ -281,7 +281,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                 <label for="action">Immediate Action(s) Taken to Prevent Reoccurance (If any)<span class="text-danger"> *</span></label>
-                                                    <textarea class="form-control" name="action" placeholder="Write your immediate action here ..." required>{{ old('action') }}</textarea>
+                                                    <textarea class="form-control" name="action" placeholder="Write your immediate action here ..." >{{ old('action') }}</textarea>
                                                     @if($errors->has('action'))
                                                         <span class="help-block text-danger">{{ $errors->first('action') }}</span>
                                                     @endif
@@ -290,7 +290,7 @@
                                             <div class="col-md-4">
                                             <div class="form-group">
                                             <label for="wps">WPS<span class="text-danger"> *</span></label>
-                                                <select name="wps" class="form-control selectpicker" required>
+                                                <select name="wps" class="form-control selectpicker" >
                                                     <option value="">Select</option>
                                                     <option value="None">None</option>
                                                     <option value="1" @if (old('wps') == '1') selected="selected" @endif>1</option>
@@ -304,7 +304,7 @@
                                             <div class="col-md-4">
                                             <div class="form-group">
                                             <label for="severity">Severity<span class="text-danger"> *</span></label>
-                                                <select name="severity" class="form-control selectpicker"  required>
+                                                <select name="severity" class="form-control selectpicker"  >
                                                     <option value="">Select</option>
                                                     <option value="None">None</option>
                                                     <option value="1" @if (old('severity') == '1') selected="selected" @endif>1</option>
@@ -318,7 +318,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                 <label for="date">Date and Time of Incident<span class="text-danger"> * </span></label>
-                                                <input type="date" value="{{ old('date') }}" id="dateTimeFlatpickr" name="date" class="form-control flatpickr flatpickr-input active" placeholder="Select Date and Time.." aria-required="true">
+                                                <input type="date" value="{{ old('date') }}" id="dateTimeFlatpickr" name="date" class="form-control flatpickr flatpickr-input active" placeholder="Select Date and Time.." aria-="true">
                                                        
                                                     </div>
                                             </div>
@@ -331,22 +331,22 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                        <!-- End Row -->
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="/incidents#!" type="button" class="btn btn-danger waves-effect">Cancel</a>
-                                        <button id="submitButton" type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
-                                    </div>
+                                                <!-- End Row -->
+                                            </div>
+                                                        <div class="modal-footer">
+                                                            <a href="/incidents#!" type="button" class="btn btn-danger waves-effect">Cancel</a>
+                                                            <button type="submit" class="btn btn-info waves-effect waves-light">Submit</button>
+                                                        </div>
+                                                </form>
                                 </section>
-                                </div>
-                                
-                               
-                    </form>
                             </div>
+                            
+                            
                         </div>
                     </div>
-
-</div>
+                </div>
+                
+            </div>
 
 
 

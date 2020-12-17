@@ -15,12 +15,12 @@ class AdminAccess
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
-        if(Auth::check() && Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin'
+        if(auth()->check() && auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin'
         || auth()->user()->role == 'gm' || auth()->user()->role == 'hsem' || auth()->user()->role == 'member') {
             
-        return $next($request);
+        return $next($request); 
     }
 
     Alert::error('Error', 'You are not allowed to access this page');

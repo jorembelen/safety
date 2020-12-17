@@ -8,6 +8,7 @@
     {!! JsValidator::formRequest('App\Http\Requests\EmployeeStoreRequest', '#emp-create'); !!}
     {!! JsValidator::formRequest('App\Http\Requests\LocationStoreRequest', '#loc-create'); !!}
     {!! JsValidator::formRequest('App\Http\Requests\IncidentStoreRequest', '#inc-Create'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\ReportStoreRequest', '#rep-Create'); !!}
 
 
     <script src="/admin/bootstrap/js/popper.min.js"></script>
@@ -34,6 +35,9 @@
     <!-- END PAGE LEVEL SCRIPTS -->
 
 
+    <script src="/admin/assets/chart/Chart.min.js"></script>
+    {{-- <script src="/admin/assets/chart/chartjs.js"></script> --}}
+    
     <!-- Dashboard -->
     <script src="/admin/plugins/apex/apexcharts.min.js"></script>
     <script src="/admin/assets/js/dashboard/dash_2.js"></script>

@@ -146,14 +146,14 @@ td{
                                         <table class="table table-sm table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <td class="text-center revised" width="40%">Person Created the Report: </td>
-                                                    <td class="text-center revised" width="40%">Signature:</td>
+                                                    <td class="text-center revised" width="70%">Person Created the Report: </td>
+                                                    <td class="text-center revised" width="30%">Signature:</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="inv">
                                                     <td class="align-middle text-center">{{ $incidents->officer->badge }} - {{ $incidents->officer->name }} ({{ $incidents->officer->designation }})</td>
-                                                    <td class="align-middle" width="12%"></td>
+                                                    <td class="align-middle" width="8%"></td>
                                                 </tr>
                                             </tbody>
                                         </table>

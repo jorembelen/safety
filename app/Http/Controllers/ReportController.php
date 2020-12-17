@@ -116,7 +116,9 @@ class ReportController extends Controller
         $notification = ' Incident Report ' .$id. ' was remark as ' .$remarks->status. '.';
         $sender = 'Created by: ' .auth()->user()->name;
         $user = User::where('role', '=', 'admin')
-        ->orWHere('role', '=', 'manager')->get();
+        ->orWHere('role', '=', 'gm')
+        ->orWHere('role', '=', 'hsem')
+        ->get();
        
         $details = [
             'greeting' => $greetings,
@@ -143,6 +145,11 @@ class ReportController extends Controller
         $id;
         $data = Incident::where('id', '=', $id)->first();
       
+        if(Report::whereincident_id($id)->exists()) {
+            Alert::error('Error', 'This incident ID already exist on the report!');
+            return back();
+         }
+
         $officer = $data->employee_id;
         $location = $data->location;
 
@@ -284,14 +291,18 @@ class ReportController extends Controller
 
             $url = 'http://192.168.156.161:8000/reports/' .$datas->id;
             $notification = ' Notification Report ' .$request->incident_id. ' was closed.';
-            $notification2 = ' You successfully closed ' .$request->incident_id.'.';
+            $notification2 = ' Your notification ' .$request->incident_id. ' was successfully closed.';
             $sender = 'Created by: ' .auth()->user()->name;
             $project = $request->location_id;
             $op = \DB::table('locations')->where('id', $project)->first();
             $location = 'Project: ' .$op->name;
             $inc_detail = 'Investigation ID: ' .$datas->id;
-            $user = User::where('id', '=', auth()->user()->id)->get();
-            $admin = User::whererole('admin')->get();
+            $admin = User::whererole('admin')
+            ->orWhere('role', '=', 'member')
+            ->orWhere('role', '=', 'gm')
+            ->orWhere('role', '=', 'hsem')
+            ->get();
+            $user = User::wherelocation_id($datas->location_id)->get();
            
             $adminDetails = [
                 'greeting' => $greetings,
@@ -299,9 +310,9 @@ class ReportController extends Controller
                 'officer' =>  $sender,
                 'project' =>  $inc_detail,
                 'location' =>  $location,
-                'actionText' => 'Go to Site',
+                'actionText' => 'Click here',
                 'actionURL' => url($url),
-                'thanks' => 'Please go to site to view incident details!',
+                'thanks' => 'Please click the button to view notification details!',
                 'detail_id' => $datas->id,
             ];
             $userDetails = [
@@ -309,14 +320,14 @@ class ReportController extends Controller
                 'body' => $notification2,
                 'project' =>  $inc_detail,
                 'location' =>  $location,
-                'actionText' => 'Go to Site',
+                'actionText' => 'Click here',
                 'actionURL' => url($url),
-                'thanks' => 'Please go to site to view incident details!',
+                'thanks' => 'Please click the button to view notification details!',
                 'info_id' => $datas->id,
             ];
             
-            // \Notification::send($user, new UserNotification($userDetails));
-            // \Notification::send($admin, new AdminNotification($adminDetails));
+            \Notification::send($user, new UserNotification($userDetails));
+            \Notification::send($admin, new AdminNotification($adminDetails));
 
             
             $count = count($request->root_name);
